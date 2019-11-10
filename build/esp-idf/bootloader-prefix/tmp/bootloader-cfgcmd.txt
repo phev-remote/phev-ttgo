@@ -1,0 +1,1 @@
+cmd='C:/Users/papaw/.espressif/tools/cmake/3.13.4/bin/cmake.exe;-DSDKCONFIG=C:/Users/papaw/Documents/phev-ttgo/sdkconfig;-DIDF_PATH=C:/Users/papaw/Desktop/esp-idf-2;-DSECURE_BOOT_SIGNING_KEY=C:/Users/papaw/Documents/phev-ttgo;-DEXTRA_COMPONENT_DIRS=C:/Users/papaw/Desktop/esp-idf-2/components/bootloader;-GNinja;<SOURCE_DIR><SOURCE_SUBDIR>'

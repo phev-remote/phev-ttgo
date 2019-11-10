@@ -1,0 +1,3 @@
+[submodule "components/phev-core-wrapper/phevcore"]
+	path = components/phev-core-wrapper/phevcore
+	url = https://github.com/phev-remote/phevcore.git
