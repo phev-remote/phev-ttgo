@@ -147,6 +147,7 @@ static void ppp_status_cb(ppp_pcb *pcb, int err_code, void *ctx)
     }
     case PPPERR_CONNECT: {
         ESP_LOGE(TAG, "status_cb: Connection lost\n");
+        esp_restart();
         break;
     }
     case PPPERR_AUTHFAIL: {

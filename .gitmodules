@@ -1,3 +1,6 @@
 [submodule "components/phev-core-wrapper/phevcore"]
 	path = components/phev-core-wrapper/phevcore
 	url = https://github.com/phev-remote/phevcore.git
+[submodule "components/msg-core-wrapper/msg-core"]
+	path = components/msg-core-wrapper/msg-core
+	url = https://github.com/papawattu/msg-core.git

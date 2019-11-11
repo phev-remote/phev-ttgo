@@ -1,5 +1,3 @@
-# Hello World Example
+# Mitsubishi Outlander PHEV remote app ESP32 TTGO firmware 
 
-Starts a FreeRTOS task to print "Hello World"
-
-See the README.md file in the upper level 'examples' directory for more information about examples.
+Uses SIM800 GPRS on the board to send car information to an MQTT broker
