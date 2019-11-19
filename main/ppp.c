@@ -41,6 +41,10 @@
 #define UART1_RTS_PIN 0
 #define UART1_CTS_PIN 0
 
+#define PPP_APN CONFIG_PPP_APN
+#define PPP_USER CONFIG_PPP_USER
+#define PPP_PASS CONFIG_PPP_PASS
+
 /* UART */
 int uart_num = UART_NUM_1;
 
@@ -53,7 +57,7 @@ ppp_pcb *ppp;
 /* The PPP IP interface */
 struct netif ppp_netif;
 
-static const char *TAG = "ppp";
+static const char *TAG = "PPP";
 
 typedef struct {
     const char *cmd;
@@ -63,6 +67,8 @@ typedef struct {
 } GSM_Cmd;
 
 #define GSM_OK_Str "OK"
+
+#define CONN_STR "AT+CGDCONT=1,\"IP\",\"" PPP_APN "\"\r"
 
 GSM_Cmd GSM_MGR_InitCmds[] = {
     {
@@ -85,8 +91,8 @@ GSM_Cmd GSM_MGR_InitCmds[] = {
     },
     {
         //AT+CGDCONT=1,"IP","apn"
-        .cmd = "AT+CGDCONT=1,\"IP\",\"everywhere\"\r",
-        .cmdSize = sizeof("AT+CGDCONT=1,\"IP\",\"everywhere\"\r") - 1,
+        .cmd = CONN_STR,
+        .cmdSize = sizeof(CONN_STR) - 1,
         .cmdResponseOnOk = GSM_OK_Str,
         .timeoutMs = GSM_TIMEOUT,
     },
@@ -206,7 +212,7 @@ static void ppp_status_cb(ppp_pcb *pcb, int err_code, void *ctx)
 
 static u32_t ppp_output_callback(ppp_pcb *pcb, u8_t *data, u32_t len, void *ctx)
 {
-    ESP_LOGI(TAG, "PPP tx len %d", len);
+    ESP_LOGD(TAG, "PPP tx len %d", len);
     return uart_write_bytes(uart_num, (const char *)data, len);
 }
 
@@ -280,7 +286,7 @@ static void pppos_client_task()
 
         ESP_LOGI(TAG, "After pppapi_set_default");
 
-        pppapi_set_auth(ppp, PPPAUTHTYPE_PAP, "everywhere", "eesecure");
+        pppapi_set_auth(ppp, PPPAUTHTYPE_PAP, PPP_USER, PPP_PASS);
 
         ESP_LOGI(TAG, "After pppapi_set_auth");
 
@@ -292,7 +298,7 @@ static void pppos_client_task()
             memset(data, 0, BUF_SIZE);
             int len = uart_read_bytes(uart_num, (uint8_t *)data, BUF_SIZE, 10 / portTICK_RATE_MS);
             if (len > 0) {
-                ESP_LOGI(TAG, "PPP rx len %d", len);
+                ESP_LOGD(TAG, "PPP rx len %d", len);
                 pppos_input_tcpip(ppp, (u8_t *)data, len);
             }
         }

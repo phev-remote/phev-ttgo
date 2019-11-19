@@ -6,3 +6,4 @@ set(SUPPORTED_TARGETS esp32)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(phev-ttgo)
+

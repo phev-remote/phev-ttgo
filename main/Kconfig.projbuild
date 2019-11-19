@@ -1,0 +1,60 @@
+menu "PHEV TTGO Config"
+    config MQTT_BROKER_URI
+        string "MQTT Broker URI"
+        default "mqtt://test.mosquitto.org"
+        help
+            MQTT Broker URI
+    config MQTT_TOPIC_PREFIX
+        string "MQTT Topic prefix"
+        default ""
+        help
+            You can specify a prefix for the default topic names
+    config MQTT_COMMANDS_TOPIC
+        string "MQTT Topic for commands"
+        default "commands"
+        help
+            You can specify a command topic name
+    config MQTT_EVENTS_TOPIC
+        string "MQTT Topic for events"
+        default "events"
+        help
+            You can specify a event topic name
+    config CAR_WIFI_SSID
+        string "Car WiFi SSID"
+        default "REMOTExxxxx"
+        help
+            Car WiFi SSID, can be found in the manual
+    config CAR_WIFI_PASSWORD
+        string "Car WiFi Password"
+        default "xxxxx"
+        help  
+            Car WiFi password, can be found in the manual
+    config PPP_APN
+        string "PPP Access Point name"
+        default "everywhere"
+        help
+            PPP Access Point name
+    config PPP_USER
+        string "PPP User"
+        default "eesecure"
+        help
+            PPP User 
+    config PPP_PASS
+        string "PPP Password"
+        default "secure"
+        help
+            PPP Password
+    config CAR_HOST_IP
+        string "Car host IP"
+        default "192.168.1.46"
+        help
+            Car host IP, you should not need to change this
+    config CAR_HOST_PORT
+        int "Car host port"
+        default 8080
+        help
+            Car host port, you should not need to change this from 8080
+
+
+
+endmenu

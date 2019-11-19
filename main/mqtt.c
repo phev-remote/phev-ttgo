@@ -4,9 +4,20 @@
 #include "msg_core.h"
 #include "msg_utils.h"
 #include "mqtt.h"
+#include "lwip/netif.h"
+#include "freertos/event_groups.h"
 
+
+extern const uint8_t mqtt_phev_remote_com_pem_start[] asm("_binary_phevremote_pem_start");
+extern const uint8_t mqtt_phev_remote_com_pem_end[] asm("_binary_phevremote_pem_end");
 
 const static char *APP_TAG = "MQTT";
+
+const static int CONNECTED_BIT = BIT0;
+
+static char * CONTROL_TOPIC;
+
+static EventGroupHandle_t mqtt_event_group;
     
 message_t * msg_mqtt_incomingHandler(messagingClient_t *client)
 {
@@ -25,13 +36,21 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
     switch (event->event_id) {
         case MQTT_EVENT_CONNECTED:
             ESP_LOGI(APP_TAG, "MQTT_EVENT_CONNECTED");
-
+            
             msg_id = esp_mqtt_client_subscribe(client, ctx->incoming_topic, 0);
-            ESP_LOGI(APP_TAG, "sent subscribe successful, msg_id=%d", msg_id);
-
+            ESP_LOGI(APP_TAG, "sent subscribe successful to %s msg_id=%d", ctx->incoming_topic,msg_id);
+            ctx->messagingClient->connected = 1;
+            xEventGroupSetBits(mqtt_event_group, CONNECTED_BIT);
+            msg_id = esp_mqtt_client_subscribe(client, CONTROL_TOPIC, 0);
+            ESP_LOGI(APP_TAG, "sent subscribe successful to %s msg_id=%d", CONTROL_TOPIC,msg_id);
+            
             break;
         case MQTT_EVENT_DISCONNECTED:
             ESP_LOGI(APP_TAG, "MQTT_EVENT_DISCONNECTED");
+            //esp_mqtt_client_reconnect(client);
+            ctx->messagingClient->connected = 0;
+            
+            esp_mqtt_client_start(client);
             break;
 
         case MQTT_EVENT_SUBSCRIBED:
@@ -44,11 +63,16 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
             break;
         case MQTT_EVENT_DATA:
             ESP_LOGI(APP_TAG, "MQTT_EVENT_DATA");
-            message_t * msg = msg_utils_createMsgTopic(event->topic,(uint8_t *) event->data,event->data_len);
-            msg_mqtt_asyncIncomingHandler(ctx->messagingClient,msg);
+            if(strncmp(event->topic,CONTROL_TOPIC,strlen(CONTROL_TOPIC)) == 0) 
+            {
+                LOG_I(APP_TAG,"Control topic - restarting");
+                vTaskDelay(2000 / portTICK_PERIOD_MS);
+                esp_restart();
+            } else {
+                message_t * msg = msg_utils_createMsgTopic(event->topic,(uint8_t *) event->data,event->data_len);
+                msg_mqtt_asyncIncomingHandler(ctx->messagingClient,msg);
             
-            printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
-            printf("DATA=%.*s\r\n", event->data_len, event->data);
+            }
             
             break;
         case MQTT_EVENT_ERROR:
@@ -72,6 +96,8 @@ int msg_mqtt_connect(messagingClient_t *client)
 {
     mqtt_ctx_t * ctx = (mqtt_ctx_t *) client->ctx;
 
+    LOG_I(APP_TAG,"MQTT connecting to %s",ctx->url);
+    
     esp_mqtt_client_config_t mqtt_cfg = {
         .uri = ctx->url,
         .event_handle = mqtt_event_handler,
@@ -80,8 +106,18 @@ int msg_mqtt_connect(messagingClient_t *client)
 
     esp_mqtt_client_handle_t mqtt = esp_mqtt_client_init(&mqtt_cfg);
     ctx->mqtt = mqtt;
-    
-    return esp_mqtt_client_start(mqtt);
+
+     LOG_I(APP_TAG,"mqtt 1 %p",ctx->mqtt);
+    mqtt_event_group = xEventGroupCreate();
+    xEventGroupClearBits(mqtt_event_group, CONNECTED_BIT);
+    int ret = esp_mqtt_client_start(mqtt);
+    LOG_I(APP_TAG,"MQTT ret %d",ret);
+
+    xEventGroupWaitBits(mqtt_event_group, CONNECTED_BIT,
+                        false, true, portMAX_DELAY);
+    LOG_I(APP_TAG,"MQTT connected");
+
+    return 0; 
 }
 
 void msg_mqtt_outgoingHandler(messagingClient_t *client, message_t *message)
@@ -89,13 +125,17 @@ void msg_mqtt_outgoingHandler(messagingClient_t *client, message_t *message)
     LOG_V(APP_TAG,"START - outgoingHandler");
     mqtt_ctx_t * ctx = (mqtt_ctx_t *) client->ctx;
     
-    int ret = esp_mqtt_client_publish(client, ctx->outgoing_topic, (char *) message->data, message->length, 1, 0);
+    if(client->connected && message->length > 0 && message->data) 
+    {
+        LOG_I(APP_TAG,"mqtt %s",ctx->outgoing_topic);
+        int ret = esp_mqtt_client_publish(ctx->mqtt, ctx->outgoing_topic, (char *) message->data, message->length, 1, 0);
+    }
     LOG_V(APP_TAG,"END - outgoingHandler");
     //return ret;
 }
 messagingClient_t * msg_mqtt_createMqttClient(mqttSettings_t settings)
 {
-    LOG_V(APP_TAG,"START - createGcpClient");
+    LOG_V(APP_TAG,"START - createMqttClient");
     
     messagingSettings_t clientSettings;
     
@@ -103,9 +143,16 @@ messagingClient_t * msg_mqtt_createMqttClient(mqttSettings_t settings)
     //msg_mqtt_t * mqtt_ctx = malloc(sizeof(msg_mqtt_t));
 
     ctx->url = strdup(settings.url);
-    ctx->incoming_topic = settings.incoming_topic;
-    ctx->outgoing_topic = settings.outgoing_topic;
 
+    asprintf(&ctx->incoming_topic,"%s/%s/%s",settings.topic_prefix,settings.device_id,settings.incoming_topic);
+    asprintf(&ctx->outgoing_topic,"%s/%s/%s",settings.topic_prefix,settings.device_id,settings.outgoing_topic);
+    asprintf(&CONTROL_TOPIC,"%s/%s/control",settings.topic_prefix,settings.device_id);
+    
+    
+    LOG_I(APP_TAG,"Incoming Topic %s : Outgoing Topic %s : Control Topic %s",ctx->incoming_topic,ctx->outgoing_topic,CONTROL_TOPIC); 
+
+   // ctx->incoming_topic = strdup(settings.incoming_topic);
+   // ctx->outgoing_topic = strdup(settings.outgoing_topic);
 
     clientSettings.incomingHandler = msg_mqtt_incomingHandler;
     clientSettings.outgoingHandler = msg_mqtt_outgoingHandler;
@@ -120,7 +167,7 @@ messagingClient_t * msg_mqtt_createMqttClient(mqttSettings_t settings)
 
     ctx->messagingClient = client;
 
-    LOG_V(APP_TAG,"END - createGcpClient");
+    LOG_V(APP_TAG,"END - createMqttClient");
     
     return client; 
 

@@ -1152,6 +1152,124 @@
     {
         "children": [
             {
+                "children": [], 
+                "depends_on": null, 
+                "help": "MQTT Broker URI\n", 
+                "id": "MQTT_BROKER_URI", 
+                "name": "MQTT_BROKER_URI", 
+                "range": null, 
+                "title": "MQTT Broker URI", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "You can specify a prefix for the default topic names\n", 
+                "id": "MQTT_TOPIC_PREFIX", 
+                "name": "MQTT_TOPIC_PREFIX", 
+                "range": null, 
+                "title": "MQTT Topic prefix", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "You can specify a command topic name\n", 
+                "id": "MQTT_COMMANDS_TOPIC", 
+                "name": "MQTT_COMMANDS_TOPIC", 
+                "range": null, 
+                "title": "MQTT Topic for commands", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "You can specify a event topic name\n", 
+                "id": "MQTT_EVENTS_TOPIC", 
+                "name": "MQTT_EVENTS_TOPIC", 
+                "range": null, 
+                "title": "MQTT Topic for events", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "Car WiFi SSID, can be found in the manual\n", 
+                "id": "CAR_WIFI_SSID", 
+                "name": "CAR_WIFI_SSID", 
+                "range": null, 
+                "title": "Car WiFi SSID", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "Car WiFi password, can be found in the manual\n", 
+                "id": "CAR_WIFI_PASSWORD", 
+                "name": "CAR_WIFI_PASSWORD", 
+                "range": null, 
+                "title": "Car WiFi Password", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "PPP Access Point name\n", 
+                "id": "PPP_APN", 
+                "name": "PPP_APN", 
+                "range": null, 
+                "title": "PPP Access Point name", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "PPP User\n", 
+                "id": "PPP_USER", 
+                "name": "PPP_USER", 
+                "range": null, 
+                "title": "PPP User", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "PPP Password\n", 
+                "id": "PPP_PASS", 
+                "name": "PPP_PASS", 
+                "range": null, 
+                "title": "PPP Password", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "Car host IP, you should not need to change this\n", 
+                "id": "CAR_HOST_IP", 
+                "name": "CAR_HOST_IP", 
+                "range": null, 
+                "title": "Car host IP", 
+                "type": "string"
+            }, 
+            {
+                "children": [], 
+                "depends_on": null, 
+                "help": "Car host port, you should not need to change this from 8080\n", 
+                "id": "CAR_HOST_PORT", 
+                "name": "CAR_HOST_PORT", 
+                "range": null, 
+                "title": "Car host port", 
+                "type": "int"
+            }
+        ], 
+        "depends_on": null, 
+        "id": "phev-ttgo-config", 
+        "title": "PHEV TTGO Config", 
+        "type": "menu"
+    }, 
+    {
+        "children": [
+            {
                 "children": [
                     {
                         "children": [], 
@@ -8856,7 +8974,7 @@
                         "id": "TCPIP_TASK_STACK_SIZE", 
                         "name": "TCPIP_TASK_STACK_SIZE", 
                         "range": [
-                            2560, 
+                            2048, 
                             65536
                         ], 
                         "title": "TCP/IP Task Stack Size", 
@@ -9097,7 +9215,10 @@
                         "help": "Maximum TLS message length (in bytes) supported by mbedTLS.\n\n16384 is the default and this value is required to comply\nfully with TLS standards.\n\nHowever you can set a lower value in order to save RAM. This\nis safe if the other end of the connection supports Maximum\nFragment Length Negotiation Extension (max_fragment_length,\nsee RFC6066) or you know for certain that it will never send a\nmessage longer than a certain number of bytes.\n\nIf the value is set too low, symptoms are a failed TLS\nhandshake or a return value of MBEDTLS_ERR_SSL_INVALID_RECORD\n(-0x7200).\n", 
                         "id": "MBEDTLS_SSL_MAX_CONTENT_LEN", 
                         "name": "MBEDTLS_SSL_MAX_CONTENT_LEN", 
-                        "range": null, 
+                        "range": [
+                            512, 
+                            16384
+                        ], 
                         "title": "TLS maximum message content length", 
                         "type": "int"
                     }, 
@@ -9109,10 +9230,7 @@
                                 "help": "This defines maximum incoming fragment length, overriding default\nmaximum content length (MBEDTLS_SSL_MAX_CONTENT_LEN).\n", 
                                 "id": "MBEDTLS_SSL_IN_CONTENT_LEN", 
                                 "name": "MBEDTLS_SSL_IN_CONTENT_LEN", 
-                                "range": [
-                                    512, 
-                                    16384
-                                ], 
+                                "range": null, 
                                 "title": "TLS maximum incoming fragment length", 
                                 "type": "int"
                             }, 
@@ -9122,10 +9240,7 @@
                                 "help": "This defines maximum outgoing fragment length, overriding default\nmaximum content length (MBEDTLS_SSL_MAX_CONTENT_LEN).\n", 
                                 "id": "MBEDTLS_SSL_OUT_CONTENT_LEN", 
                                 "name": "MBEDTLS_SSL_OUT_CONTENT_LEN", 
-                                "range": [
-                                    512, 
-                                    16384
-                                ], 
+                                "range": null, 
                                 "title": "TLS maximum outgoing fragment length", 
                                 "type": "int"
                             }

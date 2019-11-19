@@ -1,11 +1,3 @@
-/* Hello World Example
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -24,40 +16,60 @@
 #include "esp_event.h"
 #include "esp_event_loop.h"
 #include "mqtt.h"
+#include "msg_tcpip.h"
+#include "logger.h"
 
 #include "ttgo.h"
 #include "ppp.h"
 #include "phev.h"
 
-//#define BROKER_URL "mqtt://mqtt.phevremote.com"
-#define BROKER_URL "mqtt://35.235.50.162"
+#include "lwip/opt.h"
+#include "lwip/sockets.h"
+#include "lwip/sys.h"
+#include "lwip/netdb.h"
+#include "lwip/dns.h"
+#include "lwip/netif.h"
+
+#ifndef CONFIG_MQTT_BROKER_URI 
+#define CONFIG_MQTT_BROKER_URI "mqtt://test.mosquitto.org"
+#endif
+#ifndef CONFIG_MQTT_TOPIC_PREFIX 
+#define CONFIG_MQTT_TOPIC_PREFIX ""
+#endif
+#ifndef CONFIG_MQTT_COMMANDS_TOPIC 
+#define CONFIG_MQTT_COMMANDS_TOPIC "commands"
+#endif
+#ifndef CONFIG_MQTT_EVENTS_TOPIC 
+#define CONFIG_MQTT_EVENTS_TOPIC "events"
+#endif
+#ifndef CONFIG_CAR_WIFI_SSID
+#define CONFIG_CAR_WIFI_SSID "SSID"
+#endif
+#ifndef CONFIG_CAR_WIFI_PASSWORD
+#define CONFIG_CAR_WIFI_PASSWORD "PASSWORD"
+#endif
+#ifndef CONFIG_CAR_HOST_IP
+#define CONFIG_CAR_HOST_IP "192.168.8.46"
+#endif
+#ifndef CONFIG_CAR_HOST_PORT
+#define CONFIG_CAR_HOST_PORT 8080
+#endif
 #define MAX_WIFI_CLIENT_SSID_LEN 32
 #define MAX_WIFI_CLIENT_PASSWORD_LEN 64
-const static int CONNECTED_BIT = BIT0;
-
-#define CMD_TOPIC "command"
-#define INIT_TOPIC "init"
-#define EVENTS_TOPIC "events"
-//#define CONFIG_CAR_WIFI_SSID "BTHub6-P535"
-//#define CONFIG_CAR_WIFI_PASSWORD "S1mpsons"
-
-#ifndef CONFIG_CAR_WIFI_SSID
-#define CONFIG_CAR_WIFI_SSID "REMOTE45cfsc"
-#endif
-
-
-#ifndef CONFIG_CAR_WIFI_PASSWORD
-#define CONFIG_CAR_WIFI_PASSWORD "fhcm852767"
-#endif
 
 
 const static char * TAG = "MAIN";
-
 uint8_t DEFAULT_MAC[] = {0,0,0,0,0,0};
+const static int CONNECTED_BIT = BIT0;
 
 static EventGroupHandle_t wifi_event_group;
 
 enum commands { CMD_UNSET, CMD_STATUS, CMD_REGISTER, CMD_HEADLIGHTS, CMD_BATTERY, CMD_AIRCON, CMD_GET_REG_VAL, CMD_DISPLAY_REG };
+
+static int global_sock = 0;
+static void * nvsHandle = NULL;
+
+static int main_eventHandler(phevEvent_t * event);
 
 static esp_err_t wifi_client_event_handler(void *ctx, system_event_t *event)
 {
@@ -65,7 +77,7 @@ static esp_err_t wifi_client_event_handler(void *ctx, system_event_t *event)
     {
     case SYSTEM_EVENT_AP_STACONNECTED: 
     {
-        ESP_LOGI(TAG, "station:"MACSTR" join, AID=%d",
+        LOG_I(TAG, "station:"MACSTR" join, AID=%d",
             MAC2STR(event->event_info.sta_connected.mac),
         event->event_info.sta_connected.aid);
         //xEventGroupSetBits(wifi_event_group, AP_CONNECTED_BIT);
@@ -73,7 +85,7 @@ static esp_err_t wifi_client_event_handler(void *ctx, system_event_t *event)
         break;
     }
     case SYSTEM_EVENT_AP_STADISCONNECTED:
-        ESP_LOGI(TAG, "station:"MACSTR"leave, AID=%d",
+        LOG_I(TAG, "station:"MACSTR"leave, AID=%d",
                  MAC2STR(event->event_info.sta_disconnected.mac),
                  event->event_info.sta_disconnected.aid);
         //xEventGroupClearBits(wifi_event_group, AP_CONNECTED_BIT);
@@ -85,7 +97,7 @@ static esp_err_t wifi_client_event_handler(void *ctx, system_event_t *event)
         break;
     case SYSTEM_EVENT_STA_GOT_IP:
         xEventGroupSetBits(wifi_event_group, CONNECTED_BIT);
-        ESP_LOGI(TAG, "Wifi started");
+        LOG_I(TAG, "Wifi started");
         break;
     case SYSTEM_EVENT_STA_DISCONNECTED:
         /* This is a workaround as ESP32 WiFi libs don't currently
@@ -107,6 +119,7 @@ void wifi_client_setup(void)
     //esp_base_mac_addr_set(new_mac);
     //vTaskDelay(100 / portTICK_PERIOD_MS);
     wifi_event_group = xEventGroupCreate();
+    xEventGroupClearBits(wifi_event_group, CONNECTED_BIT);
     ESP_ERROR_CHECK(esp_event_loop_init(wifi_client_event_handler, NULL));
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
@@ -116,6 +129,7 @@ void wifi_conn_init()
 {
     //esp_wifi_stop();
     wifi_event_group = xEventGroupCreate();
+    xEventGroupClearBits(wifi_event_group, CONNECTED_BIT);
     ESP_ERROR_CHECK(esp_event_loop_init(wifi_client_event_handler, NULL));
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
@@ -140,19 +154,28 @@ void wifi_conn_init()
     
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
-    ESP_LOGI(TAG, "start the WIFI SSID:[%s] password:[%s]", wifi_config.sta.ssid, wifi_config.sta.password);
+    LOG_I(TAG, "start the WIFI SSID:[%s] password:[%s]", wifi_config.sta.ssid, wifi_config.sta.password);
     ESP_ERROR_CHECK(esp_wifi_start());
+    LOG_I(TAG,"Waiting for WiFi...");
+
+    
     xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT,
                         false, true, portMAX_DELAY);
-    
     for (struct netif *pri = netif_list; pri != NULL; pri=pri->next)
     {
-        ESP_LOGD(TAG, "Interface priority is %c%c%d (" IPSTR "/" IPSTR " gateway " IPSTR ")",
+        LOG_I(TAG, "Interface priority is %c%c%d (" IPSTR "/" IPSTR " gateway " IPSTR ")",
         pri->name[0], pri->name[1], pri->num,
         IP2STR(&pri->ip_addr.u_addr.ip4), IP2STR(&pri->netmask.u_addr.ip4), IP2STR(&pri->gw.u_addr.ip4));
-        if(pri->name[0] == 'p') netif_set_default(pri);
+        if(pri->name[0] == 'p') 
+        {
+            LOG_I(TAG,"Set PPP priority interface");
+            netif_set_default(pri);
+        }
+        
     }
     
+    LOG_I(TAG,"WiFi Connected...");
+        
 }
 void init_nvs()
 {
@@ -170,7 +193,7 @@ void init_nvs()
 
 static void initialize_sntp(void)
 {
-    ESP_LOGI(TAG, "Initializing SNTP");
+    LOG_I(TAG, "Initializing SNTP");
     sntp_setoperatingmode(SNTP_OPMODE_POLL);
     sntp_setservername(0, "uk.pool.ntp.org");
     sntp_init();
@@ -185,172 +208,142 @@ static void obtain_time(void)
     time_t now = 0;
     struct tm timeinfo = {0};
     while (timeinfo.tm_year < (2019 - 1900)) {
-        ESP_LOGI(TAG, "Waiting for system time to be set...");
+        LOG_I(TAG, "Waiting for system time to be set...");
         vTaskDelay(2000 / portTICK_PERIOD_MS);
         time(&now);
         localtime_r(&now, &timeinfo);
     }
-    printf ( "Current local time and date: %s", asctime(&timeinfo) );
+    LOG_I(TAG,"Current local time and date: %s", asctime(&timeinfo) );
 }
 
 static int main_eventHandler(phevEvent_t * event)
 {
-    
+    if(!event) 
+    {
+        return 0;
+    }
     switch (event->type)
     {
         case PHEV_REGISTER_UPDATE: 
         {
-            /*
-            switch(command)
-            {
-                case CMD_BATTERY: 
-                {
-                    if(event->reg == KO_WF_BATT_LEVEL_INFO_REP_EVR)
-                    {
-                        int batt = phev_batteryLevel(event->ctx);
-                        if(batt < 0)
-                        {
-                            return 0;
-                        }
-                        printf("Battery level %d\n",batt);
-                        exit(0);
-                    }
-                    break;
-                }
-                case CMD_DISPLAY_REG:
-                {
-                    printf("Register : %d Data :",event->reg);
-                    for(int i=0;i<event->length;i++)
-                    {
-                        printf("%02X ",event->data[i]);
-                    }
-                    printf("\n");
-                    break;
-                }
-                case CMD_GET_REG_VAL: {
-                    phevData_t * reg = phev_getRegister(event->ctx, uint_value);
-                    if(reg == NULL)
-                    {
-                        if(wait_for_regs > WAIT_FOR_REG_MAX)
-                        {
-                            printf("REGISTER TIMEOUT\n");
-                            exit(0);
-                        }
-                        wait_for_regs ++;
-                        return 0;
-                    }
-                    printf("Get register %d : ",uint_value);
-                    for(int i=0;i<reg->length;i++)
-                    {
-                        printf("%02X ",reg->data[i]);
-                    }
-                    printf("\n");
-                    exit(0);
-                    break;
-                }
-            } */
+            LOG_I(TAG,"Register : %d",event->reg);
+            
+            LOG_BUFFER_HEXDUMP(TAG,event->data,event->length,LOG_INFO);
+
             return 0;
         }
     
         case PHEV_REGISTRATION_COMPLETE: 
         {
-            printf("Registration Complete\n");
+            LOG_I(TAG,"Registration Complete\n");
+            nvs_set_u8(nvsHandle,"registered",true);
+            LOG_I(TAG,"Rebooting...");
+            vTaskDelay(2000 / portTICK_PERIOD_MS);
+            esp_restart();
+
             return 0;
         }
         case PHEV_CONNECTED:
         {
+            LOG_I(TAG,"Connected\n");
             return 0;
         }
         case PHEV_STARTED:
         {
-            printf("Started\n");
+            LOG_I(TAG,"Started\n");
             return 0;
         }
         case PHEV_VIN:
         {
-            printf("VIN number : %s\n",event->data);
+            LOG_I(TAG,"VIN number : %s\n",event->data);
             
             return 0;
         }
         case PHEV_ECU_VERSION:
         {
-            printf("ECU Version : %s\n",event->data);
-            /*
-            if(command != CMD_UNSET)
-            {
-                switch(command)
-                {
-                    case CMD_HEADLIGHTS: {
-                        printf("Turning head lights %s : ",(bool_value?"ON":"OFF"));
-                        phev_headLights(event->ctx, bool_value, operationCallback);        
-                        break;
-                    }
-                    case CMD_AIRCON: {
-                        printf("Turning air conditioning %s : ",(bool_value?"ON":"OFF"));
-                        phev_airCon(event->ctx, bool_value, operationCallback);        
-                        break;
-                    }
-                }
-            } */
+            LOG_I(TAG,"ECU Version : %s\n",event->data);
             return 0;
         }
         default: {
-            printf("Unhandled command\n");
+            LOG_I(TAG,"Unhandled command %d\n",event->type);
             return 0;
         }
 
     }
     return 0;
 }
-void main_phev_start()
+void main_phev_start(bool init, uint64_t * mac,char * deviceId)
 {
     phevCtx_t * ctx;
-    const char * host = "192.168.8.46";
-    const unsigned char * mac = DEFAULT_MAC;
-    const uint16_t port = 8080;
-    bool init = false;
-    bool verbose = false;
-
+    const char * host = CONFIG_CAR_HOST_IP;
+    const uint16_t port = CONFIG_CAR_HOST_PORT;
+    
     mqttSettings_t mqtt_settings = {
-        .url = BROKER_URL,
-        .incoming_topic = CMD_TOPIC,
-        .outgoing_topic = EVENTS_TOPIC,
+        .url = CONFIG_MQTT_BROKER_URI,
+        .topic_prefix = CONFIG_MQTT_TOPIC_PREFIX,
+        .device_id = deviceId,
+        .incoming_topic = CONFIG_MQTT_COMMANDS_TOPIC,
+        .outgoing_topic = CONFIG_MQTT_EVENTS_TOPIC,
     };
-    messagingClient_t * client =  msg_mqtt_createMqttClient(mqtt_settings);
+ 
+
+    messagingClient_t * in_client =  msg_mqtt_createMqttClient(mqtt_settings);
+
     phevSettings_t settings = {
         .host = host,
         .mac = mac,
         .port = port,
-        .registerDevice = true,
+        .registerDevice = init,
         .handler = main_eventHandler,
-        .in = client,
+        .in = in_client,
     };
 
-    ctx = phev_registerDevice(settings);
-
-    //ctx = phev_init(settings);
-
+    if(init)
+    {
+        ctx = phev_registerDevice(settings);
+    } else {
+        ctx = phev_init(settings);
+    }
+    
     phev_start((phevCtx_t *) ctx);
-}
-
-void mqtt_app_start()
-{
-
 }
 
 void app_main()
 {
+    char * deviceId = NULL;
+
+    uint8_t mac[6];
+
+    uint8_t registered = false;
     
+    esp_efuse_mac_get_default(&mac);
+
     init_nvs();
+
+    esp_err_t err = nvs_open("phev_store", NVS_READWRITE, &nvsHandle);
+
+    err = nvs_get_u8(nvsHandle,"registered", &registered);
+
+    if(err == ESP_ERR_NVS_NOT_FOUND)
+    {
+        LOG_I(TAG,"Car not registered with this device");
+        err = nvs_set_u8(nvsHandle,"registered",registered); 
+    }
+
+    asprintf(&deviceId, "%02x%02x%02x%02x%02x%02x",(unsigned char) mac[0], (unsigned char) mac[1],(unsigned char) mac[2], (unsigned char) mac[3], (unsigned char) mac[4], (unsigned char) mac[5]);
+    
+    LOG_I(TAG,"Device ID %s",deviceId);
 
     initTTGoSIM();
 
     tcpip_adapter_init();
+
     ppp_start_app();
 
     obtain_time();
 
     wifi_conn_init();
+    
+    main_phev_start(!registered,mac,deviceId);
 
-    main_phev_start();
 }

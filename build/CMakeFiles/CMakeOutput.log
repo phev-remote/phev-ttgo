@@ -35,18 +35,18 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Determining if the C compiler works passed with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_eabfa"
-[1/2] Building C object CMakeFiles/cmTC_eabfa.dir/testCCompiler.c.obj
-[2/2] Linking C executable cmTC_eabfa
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_b9f65"
+[1/2] Building C object CMakeFiles/cmTC_b9f65.dir/testCCompiler.c.obj
+[2/2] Linking C executable cmTC_b9f65
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400054
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_3cb2d"
-[1/2] Building C object CMakeFiles/cmTC_3cb2d.dir/CMakeCCompilerABI.c.obj
-[2/2] Linking C executable cmTC_3cb2d
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_8c061"
+[1/2] Building C object CMakeFiles/cmTC_8c061.dir/CMakeCCompilerABI.c.obj
+[2/2] Linking C executable cmTC_8c061
 Using built-in specs.
 COLLECT_GCC=C:\Users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe
 COLLECT_LTO_WRAPPER=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe
@@ -56,8 +56,8 @@ Thread model: posix
 gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0-80-g6c4433a5) 
 COMPILER_PATH=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/
 LIBRARY_PATH=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib/
-COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_3cb2d'
- c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe -plugin c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll -plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccXYoW4S.res --sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot -o cmTC_3cb2d -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_3cb2d.dir/CMakeCCompilerABI.c.obj
+COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_8c061'
+ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe -plugin c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll -plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccjSLvyc.res --sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot -o cmTC_8c061 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_8c061.dir/CMakeCCompilerABI.c.obj
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400074
 
 
@@ -65,9 +65,9 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(xtensa-esp32-elf-ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_3cb2d"]
-  ignore line: [[1/2] Building C object CMakeFiles/cmTC_3cb2d.dir/CMakeCCompilerABI.c.obj]
-  ignore line: [[2/2] Linking C executable cmTC_3cb2d]
+  ignore line: [Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_8c061"]
+  ignore line: [[1/2] Building C object CMakeFiles/cmTC_8c061.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [[2/2] Linking C executable cmTC_8c061]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=C:\Users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe]
   ignore line: [COLLECT_LTO_WRAPPER=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe]
@@ -83,22 +83,22 @@ Parsed C implicit link information from above output:
   ignore line: [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib/]
   ignore line: [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib/]
   ignore line: [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_3cb2d']
-  link line: [ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe -plugin c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll -plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccXYoW4S.res --sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot -o cmTC_3cb2d -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_3cb2d.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_8c061']
+  link line: [ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe -plugin c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll -plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccjSLvyc.res --sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot -o cmTC_8c061 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_8c061.dir/CMakeCCompilerABI.c.obj]
     arg [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe] ==> ignore
     arg [-plugin] ==> ignore
     arg [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll] ==> ignore
     arg [-plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe] ==> ignore
-    arg [-plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccXYoW4S.res] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccjSLvyc.res] ==> ignore
     arg [--sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_3cb2d] ==> ignore
+    arg [cmTC_8c061] ==> ignore
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0]
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc]
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib]
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib]
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib]
-    arg [CMakeFiles/cmTC_3cb2d.dir/CMakeCCompilerABI.c.obj] ==> ignore
+    arg [CMakeFiles/cmTC_8c061.dir/CMakeCCompilerABI.c.obj] ==> ignore
   collapse library dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0] ==> [C:/Users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/lib/gcc/xtensa-esp32-elf/5.2.0]
   collapse library dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc] ==> [C:/Users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/lib/gcc]
   collapse library dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib] ==> [C:/Users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/xtensa-esp32-elf/lib]
@@ -114,9 +114,9 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_44979"
-[1/2] Building C object CMakeFiles/cmTC_44979.dir/feature_tests.c.obj
-[2/2] Linking C executable cmTC_44979
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_a56fd"
+[1/2] Building C object CMakeFiles/cmTC_a56fd.dir/feature_tests.c.obj
+[2/2] Linking C executable cmTC_a56fd
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400074
 
 
@@ -129,9 +129,9 @@ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtens
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_360b9"
-[1/2] Building C object CMakeFiles/cmTC_360b9.dir/feature_tests.c.obj
-[2/2] Linking C executable cmTC_360b9
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_b5dba"
+[1/2] Building C object CMakeFiles/cmTC_b5dba.dir/feature_tests.c.obj
+[2/2] Linking C executable cmTC_b5dba
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400074
 
 
@@ -144,9 +144,9 @@ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtens
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_3f569"
-[1/2] Building C object CMakeFiles/cmTC_3f569.dir/feature_tests.c.obj
-[2/2] Linking C executable cmTC_3f569
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_e38ff"
+[1/2] Building C object CMakeFiles/cmTC_e38ff.dir/feature_tests.c.obj
+[2/2] Linking C executable cmTC_e38ff
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400074
 
 
@@ -157,18 +157,18 @@ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtens
 Determining if the CXX compiler works passed with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_0cfa7"
-[1/2] Building CXX object CMakeFiles/cmTC_0cfa7.dir/testCXXCompiler.cxx.obj
-[2/2] Linking CXX executable cmTC_0cfa7
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_ca537"
+[1/2] Building CXX object CMakeFiles/cmTC_ca537.dir/testCXXCompiler.cxx.obj
+[2/2] Linking CXX executable cmTC_ca537
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400054
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_d81be"
-[1/2] Building CXX object CMakeFiles/cmTC_d81be.dir/CMakeCXXCompilerABI.cpp.obj
-[2/2] Linking CXX executable cmTC_d81be
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_92359"
+[1/2] Building CXX object CMakeFiles/cmTC_92359.dir/CMakeCXXCompilerABI.cpp.obj
+[2/2] Linking CXX executable cmTC_92359
 Using built-in specs.
 COLLECT_GCC=C:\Users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-g++.exe
 COLLECT_LTO_WRAPPER=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe
@@ -178,8 +178,8 @@ Thread model: posix
 gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0-80-g6c4433a5) 
 COMPILER_PATH=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/
 LIBRARY_PATH=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib/;c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib/
-COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_d81be'
- c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe -plugin c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll -plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccatzq5x.res --sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot -o cmTC_d81be -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_d81be.dir/CMakeCXXCompilerABI.cpp.obj
+COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_92359'
+ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe -plugin c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll -plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccs8uplJ.res --sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot -o cmTC_92359 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_92359.dir/CMakeCXXCompilerABI.cpp.obj
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400074
 
 
@@ -187,9 +187,9 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(xtensa-esp32-elf-ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_d81be"]
-  ignore line: [[1/2] Building CXX object CMakeFiles/cmTC_d81be.dir/CMakeCXXCompilerABI.cpp.obj]
-  ignore line: [[2/2] Linking CXX executable cmTC_d81be]
+  ignore line: [Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_92359"]
+  ignore line: [[1/2] Building CXX object CMakeFiles/cmTC_92359.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [[2/2] Linking CXX executable cmTC_92359]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=C:\Users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-g++.exe]
   ignore line: [COLLECT_LTO_WRAPPER=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe]
@@ -205,22 +205,22 @@ Parsed CXX implicit link information from above output:
   ignore line: [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib/]
   ignore line: [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib/]
   ignore line: [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_d81be']
-  link line: [ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe -plugin c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll -plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccatzq5x.res --sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot -o cmTC_d81be -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_d81be.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_92359']
+  link line: [ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe -plugin c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll -plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccs8uplJ.res --sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot -o cmTC_92359 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_92359.dir/CMakeCXXCompilerABI.cpp.obj]
     arg [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2.exe] ==> ignore
     arg [-plugin] ==> ignore
     arg [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin-0.dll] ==> ignore
     arg [-plugin-opt=c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper.exe] ==> ignore
-    arg [-plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccatzq5x.res] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\Users\papaw\AppData\Local\Temp\ccs8uplJ.res] ==> ignore
     arg [--sysroot=c:\users\papaw\.espressif\tools\xtensa-esp32-elf\1.22.0-80-g6c4433a5-5.2.0\xtensa-esp32-elf\bin\../xtensa-esp32-elf/sysroot] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_d81be] ==> ignore
+    arg [cmTC_92359] ==> ignore
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0]
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc]
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib]
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib]
     arg [-Lc:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib] ==> dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib]
-    arg [CMakeFiles/cmTC_d81be.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+    arg [CMakeFiles/cmTC_92359.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
   collapse library dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0] ==> [C:/Users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/lib/gcc/xtensa-esp32-elf/5.2.0]
   collapse library dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc] ==> [C:/Users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/lib/gcc]
   collapse library dir [c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib] ==> [C:/Users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/xtensa-esp32-elf/lib]
@@ -236,9 +236,9 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++1z] compiler features compiled with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_2a362"
-[1/2] Building CXX object CMakeFiles/cmTC_2a362.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_2a362
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_2ef59"
+[1/2] Building CXX object CMakeFiles/cmTC_2ef59.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_2ef59
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400074
 
 
@@ -304,9 +304,9 @@ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtens
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_ddbcf"
-[1/2] Building CXX object CMakeFiles/cmTC_ddbcf.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_ddbcf
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_dfe1b"
+[1/2] Building CXX object CMakeFiles/cmTC_dfe1b.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_dfe1b
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400074
 
 
@@ -372,9 +372,9 @@ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtens
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_a0fe8"
-[1/2] Building CXX object CMakeFiles/cmTC_a0fe8.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_a0fe8
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_d06da"
+[1/2] Building CXX object CMakeFiles/cmTC_d06da.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_d06da
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400074
 
 
@@ -440,9 +440,9 @@ c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtens
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: C:/Users/papaw/Documents/phev-ttgo/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_c6b8b"
-[1/2] Building CXX object CMakeFiles/cmTC_c6b8b.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_c6b8b
+Run Build Command:"C:/Users/papaw/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_6cf45"
+[1/2] Building CXX object CMakeFiles/cmTC_6cf45.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_6cf45
 c:/users/papaw/.espressif/tools/xtensa-esp32-elf/1.22.0-80-g6c4433a5-5.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: warning: cannot find entry symbol _start; defaulting to 00400074
 
 
