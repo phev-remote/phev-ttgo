@@ -159,18 +159,29 @@ void wifi_conn_init()
     LOG_I(TAG,"Waiting for WiFi...");
 
     
+    
+    
     xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT,
                         false, true, portMAX_DELAY);
+
     for (struct netif *pri = netif_list; pri != NULL; pri=pri->next)
     {
-        LOG_I(TAG, "Interface priority is %c%c%d (" IPSTR "/" IPSTR " gateway " IPSTR ")",
-        pri->name[0], pri->name[1], pri->num,
-        IP2STR(&pri->ip_addr.u_addr.ip4), IP2STR(&pri->netmask.u_addr.ip4), IP2STR(&pri->gw.u_addr.ip4));
+        //LOG_I(TAG, "Interface priority is %c%c%d (" IPSTR "/" IPSTR " gateway " IPSTR ")",
+        //pri->name[0], pri->name[1], pri->num,
+        //IP2STR(&pri->ip_addr.u_addr.ip4), IP2STR(&pri->netmask.u_addr.ip4), IP2STR(&pri->gw.u_addr.ip4));
         if(pri->name[0] == 'p') 
         {
             LOG_I(TAG,"Set PPP priority interface");
             netif_set_default(pri);
         }
+    }
+
+    for (struct netif *pri = netif_list; pri != NULL; pri=pri->next)
+    {
+        LOG_I(TAG, "Interface priority is %c%c%d (" IPSTR "/" IPSTR " gateway " IPSTR ")",
+        pri->name[0], pri->name[1], pri->num,
+        IP2STR(&pri->ip_addr.u_addr.ip4), IP2STR(&pri->netmask.u_addr.ip4), IP2STR(&pri->gw.u_addr.ip4));
+        
         
     }
     
@@ -338,11 +349,11 @@ void app_main()
 
     tcpip_adapter_init();
 
+    wifi_conn_init();
+
     ppp_start_app();
 
     obtain_time();
-
-    wifi_conn_init();
     
     main_phev_start(!registered,mac,deviceId);
 

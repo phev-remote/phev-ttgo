@@ -6,7 +6,7 @@ menu "PHEV TTGO Config"
             MQTT Broker URI
     config MQTT_TOPIC_PREFIX
         string "MQTT Topic prefix"
-        default ""
+        default "/ttgo/devices"
         help
             You can specify a prefix for the default topic names
     config MQTT_COMMANDS_TOPIC

@@ -2,4 +2,4 @@
 build/
 *.key
 sdkconfig
-*.old
+sdkconfig.old
