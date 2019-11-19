@@ -24,9 +24,15 @@ An ID is created based on the ESP MAC address which is logged at start up.
 
 The device will try and register itself, so put the car into registration mode and make sure the device is in WiFi range (you should see in the logs if it connects ok).
 
-Once registered it will start to broadcast to the MQTT topics /ttgo/devices/<mac address>/events
-  
-You can then send updates to /ttgo/devices/<mac address>/commands topic in the following JSON format.
+Once registered it will start to broadcast to the MQTT topic 
+```
+/ttgo/devices/<mac address>/events
+```  
+You can then send updates to 
+```
+/ttgo/devices/<mac address>/commands
+```
+topic in the following JSON format.
   
  ```
  {
