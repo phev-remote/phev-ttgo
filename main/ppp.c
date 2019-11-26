@@ -25,7 +25,7 @@
 #include "lwip/sys.h"
 #include "lwip/netdb.h"
 #include "lwip/dns.h"
-
+#include "driver/gpio.h"
 #include "ppp.h"
 
 
