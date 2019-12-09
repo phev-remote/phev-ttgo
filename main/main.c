@@ -17,6 +17,7 @@
 #include "esp_event_loop.h"
 #include "mqtt.h"
 #include "msg_tcpip.h"
+#include "msg_utils.h"
 #include "logger.h"
 
 #include "ttgo.h"
@@ -53,6 +54,9 @@
 #endif
 #ifndef CONFIG_CAR_HOST_PORT
 #define CONFIG_CAR_HOST_PORT 8080
+#endif
+#ifndef CONFIG_MQTT_STATUS_TOPIC
+#define CONFIG_MQTT_STATUS_TOPIC "status"
 #endif
 #define MAX_WIFI_CLIENT_SSID_LEN 32
 #define MAX_WIFI_CLIENT_PASSWORD_LEN 64
@@ -275,6 +279,14 @@ static int main_eventHandler(phevEvent_t * event)
             LOG_I(TAG,"ECU Version : %s\n",event->data);
             return 0;
         }
+        case PHEV_DATE_SYNC:
+        {
+            LOG_I(TAG,"Date sync : 20%d-%d-%d %d:%d:%d",event->data[0],event->data[1],event->data[2],event->data[3],event->data[4],event->data[5]);
+            char * str = phev_statusAsJson(event->ctx);
+            message_t * status = msg_utils_createMsgTopic("status",(uint8_t *) str,strlen(str));
+            event->ctx->serviceCtx->pipe->pipe->in->publish(event->ctx->serviceCtx->pipe->pipe->in,status);
+            return 0;
+        }
         default: {
             LOG_I(TAG,"Unhandled command %d\n",event->type);
             return 0;
@@ -295,6 +307,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         .device_id = deviceId,
         .incoming_topic = CONFIG_MQTT_COMMANDS_TOPIC,
         .outgoing_topic = CONFIG_MQTT_EVENTS_TOPIC,
+        .status_topic = CONFIG_MQTT_STATUS_TOPIC,
     };
  
 

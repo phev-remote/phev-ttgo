@@ -17,6 +17,10 @@ const static int CONNECTED_BIT = BIT0;
 
 static char * CONTROL_TOPIC;
 
+static char * STATUS_TOPIC;
+
+static char * TOPIC_PREFIX;
+
 static EventGroupHandle_t mqtt_event_group;
     
 message_t * msg_mqtt_incomingHandler(messagingClient_t *client)
@@ -127,8 +131,17 @@ void msg_mqtt_outgoingHandler(messagingClient_t *client, message_t *message)
     
     if(client->connected && message->length > 0 && message->data) 
     {
-        LOG_I(APP_TAG,"mqtt %s",ctx->outgoing_topic);
-        int ret = esp_mqtt_client_publish(ctx->mqtt, ctx->outgoing_topic, (char *) message->data, message->length, 1, 0);
+        if(message->topic == NULL)
+        {
+            LOG_I(APP_TAG,"mqtt topic %s",ctx->outgoing_topic);
+            esp_mqtt_client_publish(ctx->mqtt, ctx->outgoing_topic, (char *) message->data, message->length, 1, 0);
+        } else {
+            char * topic;
+            asprintf(&topic,"%s/%s",TOPIC_PREFIX,message->topic);
+            LOG_I(APP_TAG,"mqtt topic %s",topic);
+            esp_mqtt_client_publish(ctx->mqtt, topic, (char *) message->data, message->length, 1, 0);
+        }
+        
     }
     LOG_V(APP_TAG,"END - outgoingHandler");
     //return ret;
@@ -147,9 +160,10 @@ messagingClient_t * msg_mqtt_createMqttClient(mqttSettings_t settings)
     asprintf(&ctx->incoming_topic,"%s/%s/%s",settings.topic_prefix,settings.device_id,settings.incoming_topic);
     asprintf(&ctx->outgoing_topic,"%s/%s/%s",settings.topic_prefix,settings.device_id,settings.outgoing_topic);
     asprintf(&CONTROL_TOPIC,"%s/%s/control",settings.topic_prefix,settings.device_id);
+    asprintf(&STATUS_TOPIC,"%s/%s/%s",settings.topic_prefix,settings.device_id,settings.status_topic);
+    asprintf(&TOPIC_PREFIX,"%s/%s",settings.topic_prefix,settings.device_id);
     
-    
-    LOG_I(APP_TAG,"Incoming Topic %s : Outgoing Topic %s : Control Topic %s",ctx->incoming_topic,ctx->outgoing_topic,CONTROL_TOPIC); 
+    LOG_I(APP_TAG,"Incoming Topic %s : Outgoing Topic %s : Control Topic %s : Status topic %s",ctx->incoming_topic,ctx->outgoing_topic,CONTROL_TOPIC, STATUS_TOPIC); 
 
    // ctx->incoming_topic = strdup(settings.incoming_topic);
    // ctx->outgoing_topic = strdup(settings.outgoing_topic);

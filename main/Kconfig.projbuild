@@ -19,6 +19,11 @@ menu "PHEV TTGO Config"
         default "events"
         help
             You can specify a event topic name
+    config MQTT_STATUS_TOPIC
+        string "MQTT Topic for status"
+        default "status"
+        help
+            You can specify a status topic name
     config CAR_WIFI_SSID
         string "Car WiFi SSID"
         default "REMOTExxxxx"
@@ -46,7 +51,7 @@ menu "PHEV TTGO Config"
             PPP Password
     config CAR_HOST_IP
         string "Car host IP"
-        default "192.168.1.46"
+        default "192.168.8.46"
         help
             Car host IP, you should not need to change this
     config CAR_HOST_PORT

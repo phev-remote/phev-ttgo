@@ -9,6 +9,7 @@ typedef struct mqttSettings_t
     char * url;
     char * incoming_topic;
     char * outgoing_topic;
+    char * status_topic;
     char * topic_prefix;
     char * device_id;
     
