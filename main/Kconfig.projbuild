@@ -59,6 +59,15 @@ menu "PHEV TTGO Config"
         default 8080
         help
             Car host port, you should not need to change this from 8080
+    config CUSTOM_MAC
+        bool "Custom MAC"
+        default n
+    config CUSTOM_MAC_ADDR
+        hex "MAC address"
+        depends on CUSTOM_MAC
+        help
+            Custom MAC address
+
 
 
 

@@ -58,6 +58,7 @@
 #ifndef CONFIG_MQTT_STATUS_TOPIC
 #define CONFIG_MQTT_STATUS_TOPIC "status"
 #endif
+
 #define MAX_WIFI_CLIENT_SSID_LEN 32
 #define MAX_WIFI_CLIENT_PASSWORD_LEN 64
 
@@ -340,8 +341,27 @@ void app_main()
 
     uint8_t registered = false;
     
-    esp_efuse_mac_get_default(&mac);
+    #ifdef CONFIG_CUSTOM_MAC
+    uint8_t custom_mac[6];
 
+    custom_mac[0] = ((uint8_t) (CONFIG_CUSTOM_MAC_ADDR >> 40) & 0xff);
+    custom_mac[1] = ((uint8_t) (CONFIG_CUSTOM_MAC_ADDR >> 32) & 0xff);
+    custom_mac[2] = ((uint8_t) (CONFIG_CUSTOM_MAC_ADDR >> 24) & 0xff);
+    custom_mac[3] = ((uint8_t) (CONFIG_CUSTOM_MAC_ADDR >> 16) & 0xff);
+    custom_mac[4] = ((uint8_t) (CONFIG_CUSTOM_MAC_ADDR >> 8) & 0xff);
+    custom_mac[5] = (uint8_t) CONFIG_CUSTOM_MAC_ADDR & 0xff;
+    LOG_I(TAG,"Custom MAC %02x%02x%02x%02x%02x%02x",
+        (uint8_t) custom_mac[0], 
+        (uint8_t) custom_mac[1],
+        (uint8_t) custom_mac[2], 
+        (uint8_t) custom_mac[3], 
+        (uint8_t) custom_mac[4], 
+        (uint8_t) custom_mac[5]);
+    
+    esp_base_mac_addr_set(custom_mac);
+    #else
+    esp_efuse_mac_get_default(&mac);
+    #endif
     init_nvs();
 
     esp_err_t err = nvs_open("phev_store", NVS_READWRITE, &nvsHandle);
