@@ -67,6 +67,9 @@ menu "PHEV TTGO Config"
         depends on CUSTOM_MAC
         help
             Custom MAC address
+    config MY18
+        bool "MY18 Support"
+        default n
 
 
 

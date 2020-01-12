@@ -59,6 +59,9 @@
 #define CONFIG_MQTT_STATUS_TOPIC "status"
 #endif
 
+#ifdef CONFIG_MY18
+#define MY18
+#endif
 #define MAX_WIFI_CLIENT_SSID_LEN 32
 #define MAX_WIFI_CLIENT_PASSWORD_LEN 64
 
