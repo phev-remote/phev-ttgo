@@ -380,6 +380,9 @@ void app_main()
     asprintf(&deviceId, "%02x%02x%02x%02x%02x%02x",(unsigned char) mac[0], (unsigned char) mac[1],(unsigned char) mac[2], (unsigned char) mac[3], (unsigned char) mac[4], (unsigned char) mac[5]);
     
     LOG_I(TAG,"Device ID %s",deviceId);
+    #ifdef MY18
+    LOG_I(TAG,"MY18");
+    #endif
 
     initTTGoSIM();
 
