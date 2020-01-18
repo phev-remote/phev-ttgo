@@ -324,6 +324,9 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         .registerDevice = init,
         .handler = main_eventHandler,
         .in = in_client,
+    #ifdef MY18
+        .my18 = true,
+    #endif
     };
 
     if(init)
