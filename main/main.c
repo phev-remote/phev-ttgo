@@ -321,7 +321,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         .host = host,
         .mac = mac,
         .port = port,
-        .registerDevice = init,
+        .registerDevice = false,
         .handler = main_eventHandler,
         .in = in_client,
     #ifdef MY18
@@ -329,7 +329,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
     #endif
     };
 
-    if(init)
+    if(false)
     {
         ctx = phev_registerDevice(settings);
     } else {
