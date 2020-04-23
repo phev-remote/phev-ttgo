@@ -111,11 +111,9 @@ int msg_mqtt_connect(messagingClient_t *client)
     esp_mqtt_client_handle_t mqtt = esp_mqtt_client_init(&mqtt_cfg);
     ctx->mqtt = mqtt;
 
-     LOG_I(APP_TAG,"mqtt 1 %p",ctx->mqtt);
     mqtt_event_group = xEventGroupCreate();
     xEventGroupClearBits(mqtt_event_group, CONNECTED_BIT);
     int ret = esp_mqtt_client_start(mqtt);
-    LOG_I(APP_TAG,"MQTT ret %d",ret);
 
     xEventGroupWaitBits(mqtt_event_group, CONNECTED_BIT,
                         false, true, portMAX_DELAY);
