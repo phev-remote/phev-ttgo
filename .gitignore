@@ -3,3 +3,4 @@ build/
 *.key
 sdkconfig
 sdkconfig.old
+.devcontainer
