@@ -331,7 +331,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
 
     if(init)
     {
-	LOG_E(TAG,"Registering");
+	LOG_I(TAG,"Registering");
         ctx = phev_registerDevice(settings);
     } else {
 	LOG_I(TAG,"Already Registered");

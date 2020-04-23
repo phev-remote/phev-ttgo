@@ -168,6 +168,8 @@ messagingClient_t * msg_mqtt_createMqttClient(mqttSettings_t settings)
    // ctx->incoming_topic = strdup(settings.incoming_topic);
    // ctx->outgoing_topic = strdup(settings.outgoing_topic);
 
+    LOG_D(APP_TAG,"Addr of incoming handler %p", msg_mqtt_incomingHandler);
+    
     clientSettings.incomingHandler = msg_mqtt_incomingHandler;
     clientSettings.outgoingHandler = msg_mqtt_outgoingHandler;
     

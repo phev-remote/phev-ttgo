@@ -27,5 +27,7 @@ typedef struct mqtt_ctx_t
 } mqtt_ctx_t;
 
 messagingClient_t * msg_mqtt_createMqttClient(mqttSettings_t settings);
+message_t * msg_mqtt_incomingHandler(messagingClient_t *client);
+void msg_mqtt_outgoingHandler(messagingClient_t *client, message_t *message);
 
 #endif
