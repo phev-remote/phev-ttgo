@@ -348,10 +348,31 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
     LOG_I(TAG,"Starting thread");
     xTaskCreate( main_thread, "Main thread task", 8192 , (void *) ctx, tskIDLE_PRIORITY, NULL );
 
+    uint8_t lastPing = 0;
+    uint8_t timeout = 0;
     while(true)
     {
+
         LOG_I(TAG,"*********** Free heap %ul",xPortGetFreeHeapSize());
+        LOG_I(TAG,">>>>>>>>> Ping %02X", ctx->serviceCtx->pipe->pingResponse);
         vTaskDelay(2000 / portTICK_PERIOD_MS);
+        if(lastPing == ctx->serviceCtx->pipe->pingResponse)
+        {
+            timeout ++;
+            if(timeout == 10)
+            {
+                LOG_I(TAG,"Ping timeout rebooting");
+                vTaskDelay(1000 / portTICK_PERIOD_MS);
+                esp_restart();
+            }
+        }
+        else
+        {
+            lastPing = ctx->serviceCtx->pipe->pingResponse;
+        }
+
+        
+
     }
     
 }
