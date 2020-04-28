@@ -11,6 +11,8 @@
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "lwip/apps/sntp.h"
+#include "pthread.h"
+#include "esp_pthread.h"
 #include "time.h"
 #include "lwip/netif.h"
 #include "esp_event.h"
@@ -299,6 +301,10 @@ static int main_eventHandler(phevEvent_t * event)
     }
     return 0;
 }
+void main_thread(void * ctx)
+{
+    phev_start((phevCtx_t *) ctx);
+}
 void main_phev_start(bool init, uint64_t * mac,char * deviceId)
 {
     phevCtx_t * ctx;
@@ -324,6 +330,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         .registerDevice = init,
         .handler = main_eventHandler,
         .in = in_client,
+        
     #ifdef MY18
         .my18 = true,
     #endif
@@ -338,8 +345,17 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         ctx = phev_init(settings);
     }
     
-    phev_start((phevCtx_t *) ctx);
+    LOG_I(TAG,"Starting thread");
+    xTaskCreate( main_thread, "Main thread task", 8192 , (void *) ctx, tskIDLE_PRIORITY, NULL );
+
+    while(true)
+    {
+        LOG_I(TAG,"*********** Free heap %ul",xPortGetFreeHeapSize());
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
+    }
+    
 }
+
 
 void app_main()
 {
