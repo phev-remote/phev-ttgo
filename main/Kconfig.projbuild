@@ -59,6 +59,11 @@ menu "PHEV TTGO Config"
         default 8080
         help
             Car host port, you should not need to change this from 8080
+    config FIRMWARE_UPGRADE_URL
+        string "firmware upgrade url endpoint"
+        default "http://runesdata.se/firmware/hello-world.bin"
+        help
+            URL of server which hosts the firmware image.
     config CUSTOM_MAC
         bool "Custom MAC"
         default n
@@ -70,8 +75,5 @@ menu "PHEV TTGO Config"
     config MY18
         bool "MY18 Support"
         default n
-
-
-
 
 endmenu

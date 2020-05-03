@@ -25,6 +25,7 @@
 #include "ttgo.h"
 #include "ppp.h"
 #include "phev.h"
+#include "ota.h"
 
 #include "lwip/opt.h"
 #include "lwip/sockets.h"
@@ -359,7 +360,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         if(lastPing == ctx->serviceCtx->pipe->pingResponse)
         {
             timeout ++;
-            if(timeout == 10)
+            if(timeout == 20)
             {
                 LOG_I(TAG,"Ping timeout rebooting");
                 vTaskDelay(1000 / portTICK_PERIOD_MS);
@@ -430,12 +431,14 @@ void app_main()
 
     tcpip_adapter_init();
 
-    wifi_conn_init();
+    //wifi_conn_init();
 
     ppp_start_app();
 
     obtain_time();
     
+    do_firmware_upgrade(CONFIG_FIRMWARE_UPGRADE_URL);
+
     main_phev_start(!registered,mac,deviceId);
 
 }
