@@ -439,6 +439,8 @@ void app_main()
 
     tcpip_adapter_init();
 
+    wifi_conn_init();
+
     ppp_start_app();
 
     obtain_time();
@@ -468,7 +470,7 @@ void app_main()
     LOG_I(TAG,"OTA Switched off in config");
 #endif
 
-    wifi_conn_init();
+    //wifi_conn_init();
 
     main_phev_start(!registered,mac,deviceId);
 
