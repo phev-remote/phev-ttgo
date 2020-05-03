@@ -59,6 +59,19 @@ menu "PHEV TTGO Config"
         default 8080
         help
             Car host port, you should not need to change this from 8080
+    config FIRMWARE_OTA
+        bool "Enable OTA"
+        default y
+    config FIRMWARE_VERSION_URL
+        string "Firmware version URL"
+        default "http://runesdata.se/firmware/VERSION.txt"
+        depends on FIRMWARE_OTA
+    config FIRMWARE_UPGRADE_URL
+        string "Firmware upgrade url endpoint"
+        default "http://runesdata.se/firmware/phev-ttgo.bin"
+        help
+            URL of server which hosts the firmware image.
+        depends on FIRMWARE_OTA
     config CUSTOM_MAC
         bool "Custom MAC"
         default n
@@ -70,8 +83,5 @@ menu "PHEV TTGO Config"
     config MY18
         bool "MY18 Support"
         default n
-
-
-
 
 endmenu

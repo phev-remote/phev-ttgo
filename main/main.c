@@ -8,6 +8,7 @@
 #include "esp_spi_flash.h"
 #include "esp_wifi.h"
 #include "esp_log.h"
+#include "esp_ota_ops.h"
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "lwip/apps/sntp.h"
@@ -25,6 +26,7 @@
 #include "ttgo.h"
 #include "ppp.h"
 #include "phev.h"
+#include "ota.h"
 
 #include "lwip/opt.h"
 #include "lwip/sockets.h"
@@ -359,7 +361,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         if(lastPing == ctx->serviceCtx->pipe->pingResponse)
         {
             timeout ++;
-            if(timeout == 10)
+            if(timeout == 20)
             {
                 LOG_I(TAG,"Ping timeout rebooting");
                 vTaskDelay(1000 / portTICK_PERIOD_MS);
@@ -380,6 +382,10 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
 
 void app_main()
 {
+    esp_app_desc_t * app = esp_ota_get_app_description();
+
+
+    LOG_I(TAG,"PHEV TTGO Version %s",app->version);
     char * deviceId = NULL;
 
     uint8_t mac[6];
@@ -430,12 +436,36 @@ void app_main()
 
     tcpip_adapter_init();
 
-    wifi_conn_init();
+    //wifi_conn_init();
 
     ppp_start_app();
 
     obtain_time();
     
+#ifdef CONFIG_FIRMWARE_OTA
+    
+    LOG_I(TAG,"OTA Switched on in config, checking for latest version");
+    char * versionString = ota_get_latest_version(CONFIG_FIRMWARE_VERSION_URL);
+
+    if(versionString == NULL)
+    {
+        LOG_W(TAG,"Could not get latest version");
+    } 
+    else 
+    {
+        if(strcmp(versionString,app->version) != 0)
+        {
+            LOG_I(TAG,"Found another version of firmware, upgrading");
+            ota_do_firmware_upgrade(CONFIG_FIRMWARE_UPGRADE_URL);
+        } 
+        else 
+        {
+            LOG_I(TAG,"Firmware at latest version");
+        }
+    }
+#else
+    LOG_I(TAG,"OTA Switched off in config");
+#endif
     main_phev_start(!registered,mac,deviceId);
 
 }

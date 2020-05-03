@@ -26,7 +26,9 @@
 #include "lwip/netdb.h"
 #include "lwip/dns.h"
 #include "driver/gpio.h"
+#include "logger.h"
 #include "ppp.h"
+
 
 
 /* The examples use simple GSM configuration that you can set via
@@ -115,14 +117,14 @@ static void ppp_status_cb(ppp_pcb *pcb, int err_code, void *ctx)
     switch (err_code) {
     case PPPERR_NONE: {
        
-        ESP_LOGI(TAG, "status_cb: Connected\n");
+        LOG_D(TAG, "status_cb: Connected\n");
 #if PPP_IPV4_SUPPORT
-        ESP_LOGI(TAG, "   our_ipaddr  = %s\n", ipaddr_ntoa(&pppif->ip_addr));
-        ESP_LOGI(TAG, "   his_ipaddr  = %s\n", ipaddr_ntoa(&pppif->gw));
-        ESP_LOGI(TAG, "   netmask     = %s\n", ipaddr_ntoa(&pppif->netmask));
+        LOG_D(TAG, "   our_ipaddr  = %s\n", ipaddr_ntoa(&pppif->ip_addr));
+        LOG_D(TAG, "   his_ipaddr  = %s\n", ipaddr_ntoa(&pppif->gw));
+        LOG_D(TAG, "   netmask     = %s\n", ipaddr_ntoa(&pppif->netmask));
 #endif /* PPP_IPV4_SUPPORT */
 #if PPP_IPV6_SUPPORT
-        ESP_LOGI(TAG, "   our6_ipaddr = %s\n", ip6addr_ntoa(netif_ip6_addr(pppif, 0)));
+        LOG_D(TAG, "   our6_ipaddr = %s\n", ip6addr_ntoa(netif_ip6_addr(pppif, 0)));
 #endif /* PPP_IPV6_SUPPORT */
 
         ip_addr_t dnsserver;
@@ -132,56 +134,56 @@ static void ppp_status_cb(ppp_pcb *pcb, int err_code, void *ctx)
         break;
     }
     case PPPERR_PARAM: {
-        ESP_LOGE(TAG, "status_cb: Invalid parameter\n");
+        LOG_E(TAG, "status_cb: Invalid parameter\n");
         break;
     }
     case PPPERR_OPEN: {
-        ESP_LOGE(TAG, "status_cb: Unable to open PPP session\n");
+        LOG_E(TAG, "status_cb: Unable to open PPP session\n");
         break;
     }
     case PPPERR_DEVICE: {
-        ESP_LOGE(TAG, "status_cb: Invalid I/O device for PPP\n");
+        LOG_E(TAG, "status_cb: Invalid I/O device for PPP\n");
         break;
     }
     case PPPERR_ALLOC: {
-        ESP_LOGE(TAG, "status_cb: Unable to allocate resources\n");
+        LOG_E(TAG, "status_cb: Unable to allocate resources\n");
         break;
     }
     case PPPERR_USER: {
-        ESP_LOGE(TAG, "status_cb: User interrupt\n");
+        LOG_E(TAG, "status_cb: User interrupt\n");
         break;
     }
     case PPPERR_CONNECT: {
-        ESP_LOGE(TAG, "status_cb: Connection lost\n");
+        LOG_E(TAG, "status_cb: Connection lost\n");
         esp_restart();
         break;
     }
     case PPPERR_AUTHFAIL: {
-        ESP_LOGE(TAG, "status_cb: Failed authentication challenge\n");
+        LOG_E(TAG, "status_cb: Failed authentication challenge\n");
         break;
     }
     case PPPERR_PROTOCOL: {
-        ESP_LOGE(TAG, "status_cb: Failed to meet protocol\n");
+        LOG_E(TAG, "status_cb: Failed to meet protocol\n");
         break;
     }
     case PPPERR_PEERDEAD: {
-        ESP_LOGE(TAG, "status_cb: Connection timeout\n");
+        LOG_E(TAG, "status_cb: Connection timeout\n");
         break;
     }
     case PPPERR_IDLETIMEOUT: {
-        ESP_LOGE(TAG, "status_cb: Idle Timeout\n");
+        LOG_E(TAG, "status_cb: Idle Timeout\n");
         break;
     }
     case PPPERR_CONNECTTIME: {
-        ESP_LOGE(TAG, "status_cb: Max connect time reached\n");
+        LOG_E(TAG, "status_cb: Max connect time reached\n");
         break;
     }
     case PPPERR_LOOPBACK: {
-        ESP_LOGE(TAG, "status_cb: Loopback detected\n");
+        LOG_E(TAG, "status_cb: Loopback detected\n");
         break;
     }
     default: {
-        ESP_LOGE(TAG, "status_cb: Unknown error code %d\n", err_code);
+        LOG_E(TAG, "status_cb: Unknown error code %d\n", err_code);
         break;
     }
     }
@@ -212,7 +214,7 @@ static void ppp_status_cb(ppp_pcb *pcb, int err_code, void *ctx)
 
 static u32_t ppp_output_callback(ppp_pcb *pcb, u8_t *data, u32_t len, void *ctx)
 {
-    ESP_LOGD(TAG, "PPP tx len %d", len);
+    LOG_D(TAG, "PPP tx len %d", len);
     return uart_write_bytes(uart_num, (const char *)data, len);
 }
 
@@ -232,7 +234,7 @@ static void pppos_client_task()
     uart_param_config(uart_num, &uart_config);
 
     // Configure UART1 pins (as set in example's menuconfig)
-    ESP_LOGI(TAG, "Configuring UART1 GPIOs: TX:%d RX:%d RTS:%d CTS: %d",
+    LOG_D(TAG, "Configuring UART1 GPIOs: TX:%d RX:%d RTS:%d CTS: %d",
              UART1_TX_PIN, UART1_RX_PIN, UART1_RTS_PIN, UART1_CTS_PIN);
     uart_set_pin(uart_num, UART1_TX_PIN, UART1_RX_PIN, UART1_RTS_PIN, UART1_CTS_PIN);
     uart_driver_install(uart_num, BUF_SIZE * 2, BUF_SIZE * 2, 0, NULL, 0);
@@ -241,7 +243,7 @@ static void pppos_client_task()
         //init gsm
         int gsmCmdIter = 0;
         while (1) {
-            ESP_LOGI(TAG, "%s", GSM_MGR_InitCmds[gsmCmdIter].cmd);
+            LOG_D(TAG, "%s", GSM_MGR_InitCmds[gsmCmdIter].cmd);
             uart_write_bytes(uart_num, (const char *)GSM_MGR_InitCmds[gsmCmdIter].cmd,
                              GSM_MGR_InitCmds[gsmCmdIter].cmdSize);
 
@@ -250,7 +252,7 @@ static void pppos_client_task()
                 memset(data, 0, BUF_SIZE);
                 int len = uart_read_bytes(uart_num, (uint8_t *)data, BUF_SIZE, 500 / portTICK_RATE_MS);
                 if (len > 0) {
-                    ESP_LOGI(TAG, "%s", data);
+                    LOG_D(TAG, "%s", data);
                 }
 
                 timeoutCnt += 500;
@@ -259,7 +261,7 @@ static void pppos_client_task()
                 }
 
                 if (timeoutCnt > GSM_MGR_InitCmds[gsmCmdIter].timeoutMs) {
-                    ESP_LOGE(TAG, "Gsm Init Error");
+                    LOG_E(TAG, "Gsm Init Error");
                     return;
                 }
             }
@@ -270,35 +272,35 @@ static void pppos_client_task()
             }
         }
 
-        ESP_LOGI(TAG, "Gsm init end");
+        LOG_I(TAG, "Gsm init end");
 
         ppp = pppapi_pppos_create(&ppp_netif,
                                   ppp_output_callback, ppp_status_cb, NULL);
 
-        ESP_LOGI(TAG, "After pppapi_pppos_create");
+        LOG_I(TAG, "After pppapi_pppos_create");
 
         if (ppp == NULL) {
-            ESP_LOGE(TAG, "Error init pppos");
+            LOG_E(TAG, "Error init pppos");
             return;
         }
 
         pppapi_set_default(ppp);
 
-        ESP_LOGI(TAG, "After pppapi_set_default");
+        LOG_D(TAG, "After pppapi_set_default");
 
         pppapi_set_auth(ppp, PPPAUTHTYPE_PAP, PPP_USER, PPP_PASS);
 
-        ESP_LOGI(TAG, "After pppapi_set_auth");
+        LOG_D(TAG, "After pppapi_set_auth");
 
         pppapi_connect(ppp, 0);
 
-        ESP_LOGI(TAG, "After pppapi_connect");
+        LOG_D(TAG, "After pppapi_connect");
 
         while (1) {
             memset(data, 0, BUF_SIZE);
             int len = uart_read_bytes(uart_num, (uint8_t *)data, BUF_SIZE, 10 / portTICK_RATE_MS);
             if (len > 0) {
-                ESP_LOGD(TAG, "PPP rx len %d", len);
+                LOG_D(TAG, "PPP rx len %d", len);
                 pppos_input_tcpip(ppp, (u8_t *)data, len);
             }
         }
