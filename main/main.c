@@ -425,8 +425,11 @@ void app_main()
         err = nvs_set_u8(nvsHandle,"registered",registered); 
     }
 
+#ifdef CONFIG_CUSTOM_DEVICE_ID
+    deviceId = strdup(CONFIG_CUSTOM_DEVICE_ID);
+#else
     asprintf(&deviceId, "%02x%02x%02x%02x%02x%02x",(unsigned char) mac[0], (unsigned char) mac[1],(unsigned char) mac[2], (unsigned char) mac[3], (unsigned char) mac[4], (unsigned char) mac[5]);
-    
+#endif
     LOG_I(TAG,"Device ID %s",deviceId);
     #ifdef MY18
     LOG_I(TAG,"MY18");
@@ -435,8 +438,6 @@ void app_main()
     initTTGoSIM();
 
     tcpip_adapter_init();
-
-    //wifi_conn_init();
 
     ppp_start_app();
 
@@ -466,6 +467,9 @@ void app_main()
 #else
     LOG_I(TAG,"OTA Switched off in config");
 #endif
+
+    wifi_conn_init();
+
     main_phev_start(!registered,mac,deviceId);
 
 }

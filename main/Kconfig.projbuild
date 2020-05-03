@@ -72,6 +72,10 @@ menu "PHEV TTGO Config"
         help
             URL of server which hosts the firmware image.
         depends on FIRMWARE_OTA
+    config CUSTOM_DEVICE_ID
+        string "Custom device ID"
+        help
+            Set a customer device ID rather than using the MAC address
     config CUSTOM_MAC
         bool "Custom MAC"
         default n
