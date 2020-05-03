@@ -436,7 +436,7 @@ void app_main()
 
     tcpip_adapter_init();
 
-    //wifi_conn_init();
+    wifi_conn_init();
 
     ppp_start_app();
 
