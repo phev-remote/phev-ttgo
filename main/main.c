@@ -372,9 +372,6 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         {
             lastPing = ctx->serviceCtx->pipe->pingResponse;
         }
-
-        
-
     }
     
 }
