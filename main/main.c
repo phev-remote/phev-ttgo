@@ -361,7 +361,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         if(lastPing == ctx->serviceCtx->pipe->pingResponse)
         {
             timeout ++;
-            if(timeout == 20)
+            if(timeout == 200)
             {
                 LOG_I(TAG,"Ping timeout rebooting");
                 vTaskDelay(1000 / portTICK_PERIOD_MS);
