@@ -307,6 +307,16 @@ void main_thread(void * ctx)
 {
     phev_start((phevCtx_t *) ctx);
 }
+
+static int times = 0;
+static bool waiting = false;
+
+void refreshCallback(phev_pipe_ctx_t *ctx, uint8_t reg, void *customCtx)
+{
+    waiting = false;    
+    
+    LOG_I(TAG,"******REFRESH ACK************** REG %02X %d",reg,times++);
+}
 void main_phev_start(bool init, uint64_t * mac,char * deviceId)
 {
     phevCtx_t * ctx;
@@ -352,16 +362,18 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
 
     uint8_t lastPing = 0;
     uint8_t timeout = 0;
+    int last = -1;
     while(true)
     {
 
         LOG_I(TAG,"*********** Free heap %ul",xPortGetFreeHeapSize());
         LOG_I(TAG,">>>>>>>>> Ping %02X", ctx->serviceCtx->pipe->pingResponse);
         vTaskDelay(2000 / portTICK_PERIOD_MS);
+        
         if(lastPing == ctx->serviceCtx->pipe->pingResponse)
         {
             timeout ++;
-            if(timeout == 200)
+            if(timeout == 20)
             {
                 LOG_I(TAG,"Ping timeout rebooting");
                 vTaskDelay(1000 / portTICK_PERIOD_MS);
