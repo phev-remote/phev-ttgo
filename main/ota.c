@@ -13,6 +13,9 @@
 
 const static char * APP_TAG = "OTA";
 
+extern const uint8_t server_cert_pem_start[] asm("_binary_fullchain_pem_start");
+extern const uint8_t server_cert_pem_end[] asm("_binary_fullchain_pem_end");
+
 esp_err_t ota_http_event_handle(esp_http_client_event_t *evt)
 {
     switch(evt->event_id) {
@@ -66,6 +69,7 @@ char * ota_get_latest_version(const char * url)
         .url = url,
         .event_handler = ota_http_event_handle,
         .user_data = &version,
+        .cert_pem = (char *)server_cert_pem_start,
     };
     esp_http_client_handle_t client = esp_http_client_init(&config);
     esp_err_t err = esp_http_client_perform(client);
@@ -84,7 +88,7 @@ esp_err_t ota_do_firmware_upgrade(const char * url)
     LOG_V(APP_TAG,"START - Performing firmware upgrade");
     esp_http_client_config_t config = {
         .url = url,
-     //   .cert_pem = (char *)server_cert_pem_start,
+        .cert_pem = (char *)server_cert_pem_start,
     };
     esp_err_t ret = esp_https_ota(&config);
     if (ret == ESP_OK) {

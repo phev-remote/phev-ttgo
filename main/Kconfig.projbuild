@@ -64,11 +64,11 @@ menu "PHEV TTGO Config"
         default y
     config FIRMWARE_VERSION_URL
         string "Firmware version URL"
-        default "http://runesdata.se/firmware/VERSION.txt"
+        default "https://runesdata.se/firmware/VERSION.txt"
         depends on FIRMWARE_OTA
     config FIRMWARE_UPGRADE_URL
         string "Firmware upgrade url endpoint"
-        default "http://runesdata.se/firmware/phev-ttgo.bin"
+        default "https://runesdata.se/firmware/phev-ttgo.bin"
         help
             URL of server which hosts the firmware image.
         depends on FIRMWARE_OTA
