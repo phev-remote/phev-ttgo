@@ -368,12 +368,12 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
 
         LOG_I(TAG,"*********** Free heap %ul",xPortGetFreeHeapSize());
         LOG_I(TAG,">>>>>>>>> Ping %02X", ctx->serviceCtx->pipe->pingResponse);
-        vTaskDelay(2000 / portTICK_PERIOD_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         
         if(lastPing == ctx->serviceCtx->pipe->pingResponse)
         {
             timeout ++;
-            if(timeout == 20)
+            if(timeout == CONFIG_PING_TIMEOUT)
             {
                 LOG_I(TAG,"Ping timeout rebooting");
                 vTaskDelay(1000 / portTICK_PERIOD_MS);

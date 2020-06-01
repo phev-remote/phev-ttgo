@@ -87,5 +87,8 @@ menu "PHEV TTGO Config"
     config MY18
         bool "MY18 Support"
         default n
+    config PING_TIMEOUT
+        int "Ping timeout"
+        default 20
 
 endmenu
