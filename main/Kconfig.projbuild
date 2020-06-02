@@ -93,5 +93,9 @@ menu "PHEV TTGO Config"
     config REBOOT_AFTER_ACK
         bool "Reboot after successful command"
         default n
+    config REBOOT_DELAY
+        int "Time to delay rebot after an ACK"
+        default 10
+        depends on REBOOT_AFTER_ACK
 
 endmenu

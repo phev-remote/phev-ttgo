@@ -259,7 +259,7 @@ static int main_eventHandler(phevEvent_t * event)
         {
             LOG_I(TAG,"Register %d acknowledged", event->reg);
 #ifdef CONFIG_REBOOT_AFTER_ACK
-            vTaskDelay(5000 / portTICK_PERIOD_MS);
+            vTaskDelay((CONFIG_REBOOT_DELAY * 1000) / portTICK_PERIOD_MS);
             esp_restart();
 #endif
             break;
@@ -269,7 +269,6 @@ static int main_eventHandler(phevEvent_t * event)
             LOG_I(TAG,"Registration Complete\n");
             nvs_set_u8(nvsHandle,"registered",true);
             LOG_I(TAG,"Rebooting...");
-            vTaskDelay(2000 / portTICK_PERIOD_MS);
             esp_restart();
 
             return 0;
