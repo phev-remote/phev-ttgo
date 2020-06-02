@@ -90,5 +90,8 @@ menu "PHEV TTGO Config"
     config PING_TIMEOUT
         int "Ping timeout"
         default 20
+    config REBOOT_AFTER_ACK
+        bool "Reboot after successful command"
+        default n
 
 endmenu

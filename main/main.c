@@ -255,7 +255,14 @@ static int main_eventHandler(phevEvent_t * event)
 
             return 0;
         }
-    
+        case PHEV_REGISTER_UPDATE_ACK:
+        {
+            LOG_I(TAG,"Register %d acknowledged", event->reg);
+#ifdef CONFIG_REBOOT_AFTER_ACK
+            esp_restart();
+#endif
+            break;
+        }
         case PHEV_REGISTRATION_COMPLETE: 
         {
             LOG_I(TAG,"Registration Complete\n");
