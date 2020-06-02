@@ -259,6 +259,7 @@ static int main_eventHandler(phevEvent_t * event)
         {
             LOG_I(TAG,"Register %d acknowledged", event->reg);
 #ifdef CONFIG_REBOOT_AFTER_ACK
+            vTaskDelay(5000 / portTICK_PERIOD_MS);
             esp_restart();
 #endif
             break;
