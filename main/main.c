@@ -459,7 +459,7 @@ void app_main()
 
     ppp_start_app();
 
-    obtain_time();
+    //obtain_time();
     
 #ifdef CONFIG_FIRMWARE_OTA
     
