@@ -384,7 +384,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
             {
                 LOG_I(TAG,"Ping timeout rebooting");
                 vTaskDelay(1000 / portTICK_PERIOD_MS);
-                esp_restart();
+                phev_disconnectCar(ctx);
             }
         }
         else
