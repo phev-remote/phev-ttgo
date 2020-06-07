@@ -97,5 +97,7 @@ menu "PHEV TTGO Config"
         int "Time to delay rebot after an ACK"
         default 10
         depends on REBOOT_AFTER_ACK
-
+    config SHOW_DEBUG_INFO
+        bool "Show heap and timeouts"
+        default n
 endmenu

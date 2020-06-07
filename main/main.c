@@ -4,6 +4,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
+#include "esp_netif.h"
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 #include "esp_wifi.h"
@@ -83,46 +84,28 @@ static void * nvsHandle = NULL;
 
 static int main_eventHandler(phevEvent_t * event);
 
-static esp_err_t wifi_client_event_handler(void *ctx, system_event_t *event)
+static int s_retry_num = 0;
+
+static int64_t lastResponseTime = 0;
+
+static void wifi_client_event_handler(void *ctx, esp_event_base_t event_base,
+                                int32_t event_id, void* event_data)
 {
-    switch (event->event_id)
-    {
-    case SYSTEM_EVENT_AP_STACONNECTED: 
-    {
-        LOG_I(TAG, "station:"MACSTR" join, AID=%d",
-            MAC2STR(event->event_info.sta_connected.mac),
-        event->event_info.sta_connected.aid);
-        //xEventGroupSetBits(wifi_event_group, AP_CONNECTED_BIT);
-        
-        break;
-    }
-    case SYSTEM_EVENT_AP_STADISCONNECTED:
-        LOG_I(TAG, "station:"MACSTR"leave, AID=%d",
-                 MAC2STR(event->event_info.sta_disconnected.mac),
-                 event->event_info.sta_disconnected.aid);
-        //xEventGroupClearBits(wifi_event_group, AP_CONNECTED_BIT);
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
-        
-        break;
-    case SYSTEM_EVENT_STA_START:
-        esp_wifi_connect();
-        break;
-    case SYSTEM_EVENT_STA_GOT_IP:
+    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+        if (s_retry_num < 10) {
+            esp_wifi_connect();
+            s_retry_num++;
+            ESP_LOGI(TAG, "retry to connect to the AP");
+        } 
+        ESP_LOGI(TAG,"connect to the AP fail");
+    } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
+        ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
+        ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
+        s_retry_num = 0;
         xEventGroupSetBits(wifi_event_group, CONNECTED_BIT);
-        LOG_I(TAG, "Wifi started");
-        break;
-    case SYSTEM_EVENT_STA_DISCONNECTED:
-        /* This is a workaround as ESP32 WiFi libs don't currently
-               auto-reassociate. */
-        esp_wifi_connect();
-        xEventGroupClearBits(wifi_event_group, CONNECTED_BIT);
-        //esp_restart();
-        break;
-    default:
-        break;
     }
-    //mdns_handle_system_event(ctx, event);
-    return ESP_OK;
 }
 
 void wifi_client_setup(void)
@@ -140,34 +123,47 @@ void wifi_client_setup(void)
 void wifi_conn_init()
 {
     //esp_wifi_stop();
+    ESP_ERROR_CHECK(esp_netif_init());
+    
     wifi_event_group = xEventGroupCreate();
+    
     xEventGroupClearBits(wifi_event_group, CONNECTED_BIT);
-    ESP_ERROR_CHECK(esp_event_loop_init(wifi_client_event_handler, NULL));
+
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+
+    esp_netif_create_default_wifi_sta();
+    
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-    /* wifi_config_t wifi_ap_config =  {
-        .ap = {
-            .ssid = AP_WIFI_SSID,
-            .ssid_len = strlen(AP_WIFI_SSID),
-            .password = AP_WIFI_PASS,
-            .max_connection = AP_MAX_STA_CONN,
-            .authmode = WIFI_AUTH_WPA_WPA2_PSK
-        },            
-    };
 
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_APSTA));
-    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_AP, &wifi_ap_config));
-    
-    */
+    esp_event_handler_instance_t instance_any_id;
+    esp_event_handler_instance_t instance_got_ip;
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
+                                                        ESP_EVENT_ANY_ID,
+                                                        &wifi_client_event_handler,
+                                                        NULL,
+                                                        &instance_any_id));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT,
+                                                        IP_EVENT_STA_GOT_IP,
+                                                        &wifi_client_event_handler,
+                                                        NULL,
+                                                        &instance_got_ip));
     wifi_config_t wifi_config = {
-        .sta.ssid = CONFIG_CAR_WIFI_SSID,
-        .sta.password = CONFIG_CAR_WIFI_PASSWORD,
+        .sta = { 
+            .ssid = CONFIG_CAR_WIFI_SSID,
+            .password = CONFIG_CAR_WIFI_PASSWORD,
+            .pmf_cfg = {
+                .capable = true,
+                .required = false
+            },
+        },
     };
     
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
-    LOG_I(TAG, "start the WIFI SSID:[%s] password:[%s]", wifi_config.sta.ssid, wifi_config.sta.password);
-    ESP_ERROR_CHECK(esp_wifi_start());
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
+    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config) );
+    ESP_ERROR_CHECK(esp_wifi_start() );
+    
+    //LOG_I(TAG, "start the WIFI SSID:[%s] password:[%s]", wifi_config.sta.ssid, wifi_config.sta.password);
     LOG_I(TAG,"Waiting for WiFi...");
 
     
@@ -245,6 +241,9 @@ static int main_eventHandler(phevEvent_t * event)
     {
         return 0;
     }
+
+    lastResponseTime = esp_timer_get_time();
+
     switch (event->type)
     {
         case PHEV_REGISTER_UPDATE: 
@@ -302,8 +301,13 @@ static int main_eventHandler(phevEvent_t * event)
             event->ctx->serviceCtx->pipe->pipe->in->publish(event->ctx->serviceCtx->pipe->pipe->in,status);
             return 0;
         }
+        case PHEV_PING_RESPONSE:
+        {
+            LOG_D(TAG,"Ping Event");
+            return 0;
+        }
         default: {
-            LOG_I(TAG,"Unhandled command %d\n",event->type);
+            LOG_W(TAG,"Unhandled command %d\n",event->type);
             return 0;
         }
 
@@ -373,23 +377,29 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
     while(true)
     {
 
+#ifdef CONFIG_SHOW_DEBUG_INFO
         LOG_I(TAG,"*********** Free heap %ul",xPortGetFreeHeapSize());
         LOG_I(TAG,">>>>>>>>> Ping %02X", ctx->serviceCtx->pipe->pingResponse);
+        LOG_I(TAG,"*********** Last command time %lld - Current time %lld", lastResponseTime,esp_timer_get_time());
+#endif
         vTaskDelay(1000 / portTICK_PERIOD_MS);
         
-        if(lastPing == ctx->serviceCtx->pipe->pingResponse)
+        if(esp_timer_get_time() > (lastResponseTime + 1000000))
         {
-            timeout ++;
             if(timeout == CONFIG_PING_TIMEOUT)
             {
-                LOG_I(TAG,"Ping timeout rebooting");
+                LOG_E(TAG,"Ping timeout rebooting");
                 vTaskDelay(1000 / portTICK_PERIOD_MS);
-                phev_disconnectCar(ctx);
+                esp_restart();
+            } 
+            else 
+            {
+                timeout ++;
             }
-        }
-        else
+        } 
+        else 
         {
-            lastPing = ctx->serviceCtx->pipe->pingResponse;
+            timeout = 0;
         }
     }
     
@@ -453,13 +463,13 @@ void app_main()
 
     initTTGoSIM();
 
-    tcpip_adapter_init();
+    //esp_netif_init();
 
     wifi_conn_init();
 
     ppp_start_app();
 
-    //obtain_time();
+    obtain_time();
     
 #ifdef CONFIG_FIRMWARE_OTA
     
@@ -485,8 +495,6 @@ void app_main()
 #else
     LOG_I(TAG,"OTA Switched off in config");
 #endif
-
-    //wifi_conn_init();
 
     main_phev_start(!registered,mac,deviceId);
 
