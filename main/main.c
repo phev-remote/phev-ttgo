@@ -306,6 +306,11 @@ static int main_eventHandler(phevEvent_t * event)
             LOG_D(TAG,"Ping Event");
             return 0;
         }
+        case PHEV_FILTERED_MESSAGE:
+        {
+            LOG_D(TAG,"Filtered message");
+            return 0;
+        }
         default: {
             LOG_W(TAG,"Unhandled command %d\n",event->type);
             return 0;
