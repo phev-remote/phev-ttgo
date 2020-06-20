@@ -8,6 +8,8 @@
 #include "freertos/event_groups.h"
 #include "ota.h"
 #include "sdkconfig.h"
+#include "nvs.h"
+#include "nvs_flash.h"
 
 
 extern const uint8_t mqtt_phev_remote_com_pem_start[] asm("_binary_phevremote_pem_start");
@@ -81,7 +83,9 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
                 if(strncmp(event->data,OTA_FORCE,strlen(OTA_FORCE)) == 0)
                 {
                     LOG_I(APP_TAG,"Forced OTA");
-                    ota_do_firmware_upgrade(CONFIG_FIRMWARE_UPGRADE_URL,CONFIG_FIRMWARE_FALLBACK_URL);
+                    nvs_set_u8(ctx->ctx,"forceota",true); 
+                    vTaskDelay(2000 / portTICK_PERIOD_MS);
+                    esp_restart();
                 }
                 
             } else {
@@ -188,6 +192,7 @@ messagingClient_t * msg_mqtt_createMqttClient(mqttSettings_t settings)
     clientSettings.connect = msg_mqtt_connect;
 
     clientSettings.ctx = (void *) ctx;
+    ctx->ctx = settings.ctx;
 
     messagingClient_t * client = msg_core_createMessagingClient(clientSettings);
 

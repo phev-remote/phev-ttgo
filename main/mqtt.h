@@ -12,7 +12,7 @@ typedef struct mqttSettings_t
     char * status_topic;
     char * topic_prefix;
     char * device_id;
-    
+    void * ctx;
 } mqttSettings_t;
 
 typedef struct mqtt_ctx_t
@@ -22,6 +22,7 @@ typedef struct mqtt_ctx_t
     char * outgoing_topic;
     messagingClient_t * messagingClient;
     esp_mqtt_client_handle_t mqtt;
+    void * ctx;
     
     
 } mqtt_ctx_t;

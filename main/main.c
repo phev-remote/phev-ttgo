@@ -351,6 +351,7 @@ void main_phev_start(bool init, uint64_t * mac,char * deviceId)
         .incoming_topic = CONFIG_MQTT_COMMANDS_TOPIC,
         .outgoing_topic = CONFIG_MQTT_EVENTS_TOPIC,
         .status_topic = CONFIG_MQTT_STATUS_TOPIC,
+        .ctx = nvsHandle,
     };
  
 
@@ -427,6 +428,8 @@ void app_main()
     uint8_t mac[6];
 
     uint8_t registered = false;
+
+    uint8_t forceota = false;
     
     #ifdef CONFIG_CUSTOM_MAC
     uint8_t custom_mac[6];
@@ -459,6 +462,20 @@ void app_main()
     {
         LOG_I(TAG,"Car not registered with this device");
         err = nvs_set_u8(nvsHandle,"registered",registered); 
+    }
+
+    err = nvs_get_u8(nvsHandle,"forceota", &forceota);
+
+    if(err != ESP_ERR_NVS_NOT_FOUND)
+    {
+        if(forceota)
+        {
+            LOG_I(TAG,"OTA has been forced");
+
+            nvs_set_u8(nvsHandle,"forceota",false); 
+    
+            ota_do_firmware_upgrade(CONFIG_FIRMWARE_UPGRADE_URL,CONFIG_FIRMWARE_FALLBACK_URL);
+        }
     }
 
 #ifdef CONFIG_CUSTOM_DEVICE_ID
