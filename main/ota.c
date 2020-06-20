@@ -41,6 +41,7 @@ esp_err_t ota_http_event_handle(esp_http_client_event_t *evt)
                 }
                 else 
                 {
+                    memset(evt->data + evt->data_len,0,32 - evt->data_len);
                     LOG_D(APP_TAG,"Version %s",(char *) evt->data);
                     strncpy(evt->user_data,(char *) evt->data, evt->data_len);
                     LOG_D(APP_TAG,"Returning version %s",(char *) evt->user_data);

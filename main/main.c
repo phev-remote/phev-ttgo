@@ -488,7 +488,7 @@ void app_main()
     } 
     else 
     {
-        if(strcmp(versionString,app->version) != 0)
+        if(strncmp(versionString,app->version,strlen(app->version)) != 0)
         {
             LOG_I(TAG,"Found another version of firmware, upgrading from %s to %s",app->version,versionString);
             ota_do_firmware_upgrade(CONFIG_FIRMWARE_UPGRADE_URL,CONFIG_FIRMWARE_FALLBACK_URL);
