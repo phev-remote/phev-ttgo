@@ -299,6 +299,7 @@ static int main_eventHandler(phevEvent_t * event)
             char * str = phev_statusAsJson(event->ctx);
             message_t * status = msg_utils_createMsgTopic("status",(uint8_t *) str,strlen(str));
             event->ctx->serviceCtx->pipe->pipe->in->publish(event->ctx->serviceCtx->pipe->pipe->in,status);
+            free(str);
             return 0;
         }
         case PHEV_PING_RESPONSE:
@@ -489,8 +490,15 @@ void app_main()
     {
         if(strcmp(versionString,app->version) != 0)
         {
-            LOG_I(TAG,"Found another version of firmware, upgrading");
+            LOG_I(TAG,"Found another version of firmware, upgrading from %s to %s",app->version,versionString);
+#ifdef CONFIG_FIRMWARE_OTA_URL_TEMPLATE
+            char * tempUrl = NULL;
+            
+            asprintf(&tempUrl,CONFIG_FIRMWARE_UPGRADE_URL_PREFIX,deviceId);
+            ota_do_firmware_upgrade(tempUrl);
+#else
             ota_do_firmware_upgrade(CONFIG_FIRMWARE_UPGRADE_URL);
+#endif
         } 
         else 
         {

@@ -5,3 +5,5 @@ sdkconfig
 sdkconfig.old
 .devcontainer
 sdkconfig.mosquitto
+.envrc
+
