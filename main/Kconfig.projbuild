@@ -73,7 +73,7 @@ menu "PHEV TTGO Config"
             URL of server which hosts the firmware image.
         depends on FIRMWARE_OTA
     config FIRMWARE_OTA_URL_TEMPLATE
-        bool "Firmware upgrade tempate"
+        bool "Firmware upgrade template"
         default n
     config FIRMWARE_UPGRADE_URL_PREFIX
         string "Firmware upgrade url prefix"
