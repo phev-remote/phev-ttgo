@@ -7,6 +7,7 @@
 #include "lwip/netif.h"
 #include "freertos/event_groups.h"
 #include "ota.h"
+#include "sdkconfig.h"
 
 
 extern const uint8_t mqtt_phev_remote_com_pem_start[] asm("_binary_phevremote_pem_start");

@@ -60,7 +60,7 @@ menu "PHEV TTGO Config"
         help
             Car host port, you should not need to change this from 8080
     config FIRMWARE_OTA
-        bool "Enable OTA"
+        bool "Enable automatic OTA at start up"
         default y
     config FIRMWARE_VERSION_URL
         string "Firmware version URL"
@@ -75,13 +75,11 @@ menu "PHEV TTGO Config"
         default "https://runesdata.se/firmware/images/<replace with device ID>/phev-ttgo.bin"
         help
             URL of server which hosts the firmware image.
-        depends on FIRMWARE_OTA
     config FIRMWARE_FALLBACK_URL
         string "Firmware upgrade fallback url endpoint"
         default "https://runesdata.se/firmware/phev-ttgo.bin"
         help
             URL of server which hosts the fallback firmware image.
-        depends on FIRMWARE_OTA
     config CUSTOM_DEVICE_ID
         string "Custom device ID"
         help
