@@ -6,6 +6,7 @@
 #include "mqtt.h"
 #include "lwip/netif.h"
 #include "freertos/event_groups.h"
+#include "ota.h"
 
 
 extern const uint8_t mqtt_phev_remote_com_pem_start[] asm("_binary_phevremote_pem_start");
@@ -69,9 +70,19 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
             ESP_LOGI(APP_TAG, "MQTT_EVENT_DATA");
             if(strncmp(event->topic,CONTROL_TOPIC,strlen(CONTROL_TOPIC)) == 0) 
             {
-                LOG_I(APP_TAG,"Control topic - restarting");
-                vTaskDelay(2000 / portTICK_PERIOD_MS);
-                esp_restart();
+                
+                if(event->data_len == 0)
+                {
+                    LOG_I(APP_TAG,"Control topic - restarting");
+                    vTaskDelay(2000 / portTICK_PERIOD_MS);
+                    esp_restart();
+                }
+                if(strncmp(event->data,OTA_FORCE,strlen(OTA_FORCE)) == 0)
+                {
+                    LOG_I(APP_TAG,"Forced OTA");
+                    ota_do_firmware_upgrade(CONFIG_FIRMWARE_UPGRADE_URL,CONFIG_FIRMWARE_FALLBACK_URL);
+                }
+                
             } else {
                 message_t * msg = msg_utils_createMsgTopic(event->topic,(uint8_t *) event->data,event->data_len);
                 msg_mqtt_asyncIncomingHandler(ctx->messagingClient,msg);

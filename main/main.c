@@ -86,6 +86,8 @@ static int main_eventHandler(phevEvent_t * event);
 
 static int s_retry_num = 0;
 
+static char * g_version = NULL;
+
 static int64_t lastResponseTime = 0;
 
 static void wifi_client_event_handler(void *ctx, esp_event_base_t event_base,
@@ -275,6 +277,8 @@ static int main_eventHandler(phevEvent_t * event)
         case PHEV_CONNECTED:
         {
             LOG_I(TAG,"Connected\n");
+            message_t * version = msg_utils_createMsgTopic("version",(uint8_t *) g_version,strlen(g_version));
+            event->ctx->serviceCtx->pipe->pipe->in->publish(event->ctx->serviceCtx->pipe->pipe->in,version);
             return 0;
         }
         case PHEV_STARTED:
@@ -416,7 +420,7 @@ void app_main()
 {
     esp_app_desc_t * app = esp_ota_get_app_description();
 
-
+    g_version = app->version;
     LOG_I(TAG,"PHEV TTGO Version %s",app->version);
     char * deviceId = NULL;
 
