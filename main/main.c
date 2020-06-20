@@ -277,8 +277,7 @@ static int main_eventHandler(phevEvent_t * event)
         case PHEV_CONNECTED:
         {
             LOG_I(TAG,"Connected\n");
-            message_t * version = msg_utils_createMsgTopic("version",(uint8_t *) g_version,strlen(g_version));
-            event->ctx->serviceCtx->pipe->pipe->in->publish(event->ctx->serviceCtx->pipe->pipe->in,version);
+
             return 0;
         }
         case PHEV_STARTED:
@@ -289,7 +288,8 @@ static int main_eventHandler(phevEvent_t * event)
         case PHEV_VIN:
         {
             LOG_I(TAG,"VIN number : %s\n",event->data);
-            
+            message_t * version = msg_utils_createMsgTopic("version",(uint8_t *) g_version,strlen(g_version));
+            event->ctx->serviceCtx->pipe->pipe->in->publish(event->ctx->serviceCtx->pipe->pipe->in,version);
             return 0;
         }
         case PHEV_ECU_VERSION:
