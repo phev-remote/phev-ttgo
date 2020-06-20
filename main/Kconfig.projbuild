@@ -64,21 +64,24 @@ menu "PHEV TTGO Config"
         default y
     config FIRMWARE_VERSION_URL
         string "Firmware version URL"
+        default "https://runesdata.se/firmware/images/<replace with device ID>/VERSION.txt"
+        depends on FIRMWARE_OTA
+    config FIRMWARE_FALLBACK_VERSION_URL
+        string "Fallback version URL"
         default "https://runesdata.se/firmware/VERSION.txt"
         depends on FIRMWARE_OTA
     config FIRMWARE_UPGRADE_URL
         string "Firmware upgrade url endpoint"
-        default "https://runesdata.se/firmware/phev-ttgo.bin"
+        default "https://runesdata.se/firmware/images/<replace with device ID>/phev-ttgo.bin"
         help
             URL of server which hosts the firmware image.
         depends on FIRMWARE_OTA
-    config FIRMWARE_OTA_URL_TEMPLATE
-        bool "Firmware upgrade template"
-        default n
-    config FIRMWARE_UPGRADE_URL_PREFIX
-        string "Firmware upgrade url prefix"
-        default "https://runesdata.se/firmware/%s/phev-ttgo.bin"
-        depends on FIRMWARE_OTA_URL_TEMPLATE
+    config FIRMWARE_FALLBACK_URL
+        string "Firmware upgrade fallback url endpoint"
+        default "https://runesdata.se/firmware/phev-ttgo.bin"
+        help
+            URL of server which hosts the fallback firmware image.
+        depends on FIRMWARE_OTA
     config CUSTOM_DEVICE_ID
         string "Custom device ID"
         help

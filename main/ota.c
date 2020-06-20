@@ -59,31 +59,74 @@ esp_err_t ota_http_event_handle(esp_http_client_event_t *evt)
     return ESP_OK;
 }
 
-char * ota_get_latest_version(const char * url)
+
+esp_http_client_handle_t ota_get_config(const char * url, char * data)
+{
+    esp_http_client_config_t config = {
+        .url = url,
+        .event_handler = ota_http_event_handle,
+        .user_data = data,
+        .cert_pem = (char *)server_cert_pem_start,
+    };
+    esp_http_client_handle_t client = esp_http_client_init(&config);
+    return client;
+    
+}
+char * ota_get_latest_version(const char * url, const char * fallbackUrl)
 {
     char version[32];
 
     memset(version,0,sizeof(version));
     
-    esp_http_client_config_t config = {
-        .url = url,
-        .event_handler = ota_http_event_handle,
-        .user_data = &version,
-        .cert_pem = (char *)server_cert_pem_start,
-    };
-    esp_http_client_handle_t client = esp_http_client_init(&config);
+    esp_http_client_handle_t client = ota_get_config(url,version);
+
     esp_err_t err = esp_http_client_perform(client);
 
     if (err == ESP_OK) 
     {
+        int status = esp_http_client_get_status_code(client);
+
         LOG_I(APP_TAG, "Status = %d, content_length = %d",
-           esp_http_client_get_status_code(client),
+           status,
            esp_http_client_get_content_length(client));
+        if(status == 200)
+        {
+            LOG_I(APP_TAG,"Latest version %s",version);
+                        
+            esp_http_client_cleanup(client);
+            return strdup(version);
+        } 
+        else
+        {
+            if(status == 404)
+            {
+                LOG_W(APP_TAG,"Cannot find specific car version txt : %s",url);
+                
+                esp_http_client_handle_t client = ota_get_config(fallbackUrl,version);
+
+                esp_err_t err = esp_http_client_perform(client);
+
+                if (err == ESP_OK)
+                {
+                    status = esp_http_client_get_status_code(client);
+                    if(status == 200)
+                    {
+                        LOG_I(APP_TAG,"Default version %s",version);
+                        esp_http_client_cleanup(client);
+                        return strdup(version);
+                    }
+                    LOG_E(APP_TAG,"Cannot get default version");
+                }
+            }
+            else
+            {
+                LOG_E(APP_TAG,"OTA http failure %d",status);
+            }
+        }
     }
-    esp_http_client_cleanup(client);
-    return strdup(version);
+    return NULL;
 }
-esp_err_t ota_do_firmware_upgrade(const char * url)
+esp_err_t ota_do_firmware_upgrade(const char * url, const char * fallbackUrl)
 {
     LOG_V(APP_TAG,"START - Performing firmware upgrade");
     esp_http_client_config_t config = {
@@ -96,7 +139,18 @@ esp_err_t ota_do_firmware_upgrade(const char * url)
     
         esp_restart();
     } else {
-        return ESP_FAIL;
+         esp_http_client_config_t config = {
+            .url = fallbackUrl,
+            .cert_pem = (char *)server_cert_pem_start,
+        };
+        esp_err_t ret = esp_https_ota(&config);
+        if (ret == ESP_OK) {
+            LOG_I(APP_TAG,"Firmware upgraded to default firmware- restarting");
+    
+             esp_restart();
+        }
+        LOG_E(APP_TAG,"Cannot upgrade firmware");
+    
     }
     
     LOG_V(APP_TAG,"END - Performing firmware upgrade");

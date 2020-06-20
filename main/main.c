@@ -480,25 +480,18 @@ void app_main()
 #ifdef CONFIG_FIRMWARE_OTA
     
     LOG_I(TAG,"OTA Switched on in config, checking for latest version");
-    char * versionString = ota_get_latest_version(CONFIG_FIRMWARE_VERSION_URL);
+    char * versionString = ota_get_latest_version(CONFIG_FIRMWARE_VERSION_URL,CONFIG_FIRMWARE_FALLBACK_VERSION_URL);
 
     if(versionString == NULL)
     {
-        LOG_W(TAG,"Could not get latest version");
+        LOG_W(TAG,"Could not get latest version from %s or %s",CONFIG_FIRMWARE_VERSION_URL,CONFIG_FIRMWARE_FALLBACK_VERSION_URL);
     } 
     else 
     {
         if(strcmp(versionString,app->version) != 0)
         {
             LOG_I(TAG,"Found another version of firmware, upgrading from %s to %s",app->version,versionString);
-#ifdef CONFIG_FIRMWARE_OTA_URL_TEMPLATE
-            char * tempUrl = NULL;
-            
-            asprintf(&tempUrl,CONFIG_FIRMWARE_UPGRADE_URL_PREFIX,deviceId);
-            ota_do_firmware_upgrade(tempUrl);
-#else
-            ota_do_firmware_upgrade(CONFIG_FIRMWARE_UPGRADE_URL);
-#endif
+            ota_do_firmware_upgrade(CONFIG_FIRMWARE_UPGRADE_URL,CONFIG_FIRMWARE_FALLBACK_URL);
         } 
         else 
         {
