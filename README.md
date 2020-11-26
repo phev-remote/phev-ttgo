@@ -56,3 +56,13 @@ topic in the following JSON format.
 The command above sets the aircon to ten minute cool.
 
 Happy PHEV Hacking!
+
+
+# Docker build instructions
+```
+docker build <docker_username>/phev-ttgo .
+
+docker run -v ~/phev-ttgo:/workspace phev-ttgo "idf.py menuconfig"
+
+docker run -v ~/phev-ttgo:/workspace phev-ttgo "idf.py build"
+```
