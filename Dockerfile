@@ -1,5 +1,6 @@
 FROM papawattu/build-firmware
 ENV IDF_PATH /esp/esp-idf
-RUN echo "IDF_PATH=/esp/esp-idf" >> /etc/profile
-RUN cp /esp/esp-idf/export.sh /etc/profile.d
-CMD ["/bin/bash","--login","-c","/esp/esp-idf/tools/idf.py build"]
+ENV BASH_ENV "/root/.bashrc"
+RUN echo "export IDF_PATH=/esp/esp-idf" >> /root/.bashrc
+RUN echo "source /esp/esp-idf/export.sh" >> /root/.bashrc
+ENTRYPOINT ["/bin/bash","-c"]
